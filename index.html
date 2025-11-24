@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CodeCraft - Leer HTML & CSS op een interactieve manier">
+    <meta name="keywords" content="HTML, CSS, tutorial, leren, webdevelopment">
+    <meta name="author" content="CodeCraft">
+    <title>CodeCraft - HTML & CSS Playground</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!--
+        Easter egg: Je bent nu in de source code!
+        Scroll naar beneden voor meer... 👀
+    -->
+
+    <!-- Navigatiebalk -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="logo">
+                <span class="logo-bracket">&lt;</span>
+                <strong>Code</strong>Craft
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#over">Over</a></li>
+                <li><a href="#voorbeelden">Voorbeelden</a></li>
+                <li><a href="#tips">Tips</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <header class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="glitch" data-text="&lt;Learn HTML & CSS/&gt;">
+                &lt;Learn HTML & CSS/&gt;
+            </h1>
+            <p class="hero-subtitle">
+                Ontdek de <mark>bouwstenen van het web</mark> met interactieve voorbeelden
+            </p>
+            <div class="cta-buttons">
+                <a href="#voorbeelden" class="cta-button primary">Bekijk Voorbeelden</a>
+                <a href="#tips" class="cta-button secondary">Pro Tips</a>
+            </div>
+        </div>
+        <div class="floating-code">&lt;div&gt;</div>
+        <div class="floating-code delayed">&lt;/div&gt;</div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Over sectie -->
+        <section class="intro" id="over">
+            <div class="container">
+                <h2>Wat is HTML & CSS?</h2>
+                <div class="info-grid">
+                    <article class="info-card">
+                        <h3>&lt;HTML&gt;</h3>
+                        <p>
+                            <strong>HyperText Markup Language</strong> - De structuur van een website.
+                            HTML bepaalt <em>wat</em> er op een pagina staat: tekst, afbeeldingen,
+                            links, formulieren, etc.
+                        </p>
+                        <blockquote>
+                            "HTML is het skelet van het web"
+                        </blockquote>
+                    </article>
+
+                    <article class="info-card">
+                        <h3>{ CSS }</h3>
+                        <p>
+                            <strong>Cascading Style Sheets</strong> - De styling van een website.
+                            CSS bepaalt <em>hoe</em> alles eruitziet: kleuren, fonts, layout,
+                            animaties, etc.
+                        </p>
+                        <blockquote>
+                            "CSS is de kleding van het web"
+                        </blockquote>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactieve Voorbeelden sectie -->
+        <section class="examples" id="voorbeelden">
+            <div class="container">
+                <h2>Interactieve Voorbeelden</h2>
+                <p class="section-intro">Hover over de voorbeelden om CSS in actie te zien! ✨</p>
+
+                <!-- Box Model Demo -->
+                <article class="example-box">
+                    <h3>1. De CSS Box Model</h3>
+                    <p>Elk element bestaat uit <strong>vier lagen</strong>:</p>
+                    <div class="box-model-demo">
+                        <div class="box-layer margin-layer">
+                            <span class="label">margin</span>
+                            <div class="box-layer border-layer">
+                                <span class="label">border</span>
+                                <div class="box-layer padding-layer">
+                                    <span class="label">padding</span>
+                                    <div class="box-layer content-layer">
+                                        <span class="label">content</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <details class="code-reveal">
+                        <summary>💡 Bekijk de CSS code</summary>
+                        <pre><code>.element {
+  margin: 20px;      /* Ruimte buiten */
+  border: 5px solid; /* Rand */
+  padding: 15px;     /* Ruimte binnen */
+  /* content hier */
+}</code></pre>
+                    </details>
+                </article>
+
+                <!-- Flexbox Demo -->
+                <article class="example-box">
+                    <h3>2. Flexbox Layout</h3>
+                    <p>Flexbox maakt <em>uitlijnen super makkelijk</em>. Probeer de buttons:</p>
+                    <div class="flexbox-demo">
+                        <div class="flex-container" id="flex-demo">
+                            <div class="flex-item">1</div>
+                            <div class="flex-item">2</div>
+                            <div class="flex-item">3</div>
+                        </div>
+                        <div class="flex-controls">
+                            <button onclick="document.getElementById('flex-demo').style.justifyContent='flex-start'">
+                                flex-start
+                            </button>
+                            <button onclick="document.getElementById('flex-demo').style.justifyContent='center'">
+                                center
+                            </button>
+                            <button onclick="document.getElementById('flex-demo').style.justifyContent='space-between'">
+                                space-between
+                            </button>
+                            <button onclick="document.getElementById('flex-demo').style.justifyContent='space-around'">
+                                space-around
+                            </button>
+                        </div>
+                    </div>
+                    <details class="code-reveal">
+                        <summary>💡 Bekijk de CSS code</summary>
+                        <pre><code>.container {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}</code></pre>
+                    </details>
+                </article>
+
+                <!-- Animations Demo -->
+                <article class="example-box">
+                    <h3>3. CSS Transforms & Animations</h3>
+                    <p>Hover over de kaarten voor <mark>coole effecten</mark>:</p>
+                    <div class="animation-demo">
+                        <div class="demo-card rotate-card">
+                            <strong>rotate()</strong>
+                            <p>360° draai</p>
+                        </div>
+                        <div class="demo-card scale-card">
+                            <strong>scale()</strong>
+                            <p>Vergroot</p>
+                        </div>
+                        <div class="demo-card translate-card">
+                            <strong>translate()</strong>
+                            <p>Beweegt</p>
+                        </div>
+                        <div class="demo-card flip-card">
+                            <div class="flip-inner">
+                                <div class="flip-front">
+                                    <strong>3D Flip</strong>
+                                </div>
+                                <div class="flip-back">
+                                    <strong>Achterkant!</strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Kleuren Tabel -->
+                <article class="example-box">
+                    <h3>4. CSS Kleuren</h3>
+                    <p>Verschillende manieren om kleuren te definiëren:</p>
+                    <table class="color-table">
+                        <caption>CSS Color Formats</caption>
+                        <thead>
+                            <tr>
+                                <th>Format</th>
+                                <th>Code</th>
+                                <th>Preview</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Hex</td>
+                                <td><code>#3498db</code></td>
+                                <td><div class="color-preview" style="background: #3498db;"></div></td>
+                            </tr>
+                            <tr>
+                                <td>RGB</td>
+                                <td><code>rgb(52, 152, 219)</code></td>
+                                <td><div class="color-preview" style="background: rgb(52, 152, 219);"></div></td>
+                            </tr>
+                            <tr>
+                                <td>RGBA</td>
+                                <td><code>rgba(52, 152, 219, 0.5)</code></td>
+                                <td><div class="color-preview" style="background: rgba(52, 152, 219, 0.5);"></div></td>
+                            </tr>
+                            <tr>
+                                <td>HSL</td>
+                                <td><code>hsl(204, 70%, 53%)</code></td>
+                                <td><div class="color-preview" style="background: hsl(204, 70%, 53%);"></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </article>
+            </div>
+        </section>
+
+        <!-- Pro Tips sectie -->
+        <section class="tips" id="tips">
+            <div class="container">
+                <h2>Pro Tips & Best Practices</h2>
+                <div class="tips-grid">
+                    <article class="tip-card do">
+                        <h3>✅ DO: Gebruik Semantische HTML</h3>
+                        <pre><code>&lt;header&gt;
+  &lt;nav&gt;...&lt;/nav&gt;
+&lt;/header&gt;
+&lt;main&gt;
+  &lt;article&gt;...&lt;/article&gt;
+&lt;/main&gt;</code></pre>
+                        <p><strong>Waarom?</strong> Betere SEO en accessibility!</p>
+                    </article>
+
+                    <article class="tip-card dont">
+                        <h3>❌ DON'T: Div Soup</h3>
+                        <pre><code>&lt;div class="header"&gt;
+  &lt;div class="nav"&gt;...&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="main"&gt;...&lt;/div&gt;</code></pre>
+                        <p><strong>Waarom niet?</strong> Geen semantische betekenis!</p>
+                    </article>
+
+                    <article class="tip-card do">
+                        <h3>✅ DO: CSS Variables</h3>
+                        <pre><code>:root {
+  --primary: #3498db;
+}
+.button {
+  background: var(--primary);
+}</code></pre>
+                        <p><strong>Waarom?</strong> Makkelijk aanpasbaar!</p>
+                    </article>
+
+                    <article class="tip-card dont">
+                        <h3>❌ DON'T: Te veel !important</h3>
+                        <pre><code>.text {
+  color: red !important;
+  font-size: 16px !important;
+}</code></pre>
+                        <p><strong>Waarom niet?</strong> Moeilijk te overschrijven!</p>
+                    </article>
+                </div>
+
+                <!-- Hall of Fame/Shame -->
+                <article class="hall-of-shame">
+                    <h3>🏛️ Deprecated HTML Hall of Shame</h3>
+                    <p>Deze tags waren cool in de jaren '90, maar gebruik ze <del>nooit</del> meer:</p>
+                    <div class="deprecated-grid">
+                        <div class="deprecated-tag">
+                            <code>&lt;marquee&gt;</code>
+                            <p class="marquee-demo">Scrollende text!</p>
+                            <small>Gebruik CSS animations</small>
+                        </div>
+                        <div class="deprecated-tag">
+                            <code>&lt;blink&gt;</code>
+                            <p class="blink-demo">Knipperende text!</p>
+                            <small>Gebruik CSS animations</small>
+                        </div>
+                        <div class="deprecated-tag">
+                            <code>&lt;center&gt;</code>
+                            <p><ins>Gecentreerd</ins></p>
+                            <small>Gebruik CSS text-align</small>
+                        </div>
+                        <div class="deprecated-tag">
+                            <code>&lt;font&gt;</code>
+                            <p>Comic Sans Era</p>
+                            <small>Gebruik CSS font-family</small>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Contact sectie -->
+        <section class="contact" id="contact">
+            <div class="container">
+                <h2>Schrijf je in!</h2>
+                <p class="section-intro">
+                    Ontvang wekelijkse <strong>HTML & CSS tips</strong> en blijf up-to-date met
+                    de laatste web development trends voor <time datetime="2024">2024</time>!
+                </p>
+                <form class="contact-form" action="#" method="post">
+                    <fieldset>
+                        <legend>Persoonlijke Gegevens</legend>
+
+                        <div class="form-group">
+                            <label for="name">Naam:</label>
+                            <input type="text" id="name" name="name" required
+                                   placeholder="Je volledige naam">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-mail:</label>
+                            <input type="email" id="email" name="email" required
+                                   placeholder="jouw@email.nl">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="level">Niveau:</label>
+                            <select id="level" name="level" required>
+                                <option value="">Selecteer je niveau...</option>
+                                <option value="beginner">🌱 Beginner</option>
+                                <option value="intermediate">🚀 Intermediate</option>
+                                <option value="advanced">⚡ Advanced</option>
+                            </select>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Interesses</legend>
+
+                        <div class="checkbox-group">
+                            <label>
+                                <input type="checkbox" name="interest" value="html">
+                                HTML
+                            </label>
+                            <label>
+                                <input type="checkbox" name="interest" value="css">
+                                CSS
+                            </label>
+                            <label>
+                                <input type="checkbox" name="interest" value="responsive">
+                                Responsive Design
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>Hoe wil je leren?</legend>
+
+                        <div class="radio-group">
+                            <label>
+                                <input type="radio" name="method" value="video" required>
+                                Video tutorials
+                            </label>
+                            <label>
+                                <input type="radio" name="method" value="text">
+                                Geschreven artikelen
+                            </label>
+                            <label>
+                                <input type="radio" name="method" value="interactive">
+                                Interactieve oefeningen
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <label for="message">Bericht <small>(optioneel)</small>:</label>
+                        <textarea id="message" name="message" rows="4"
+                                  placeholder="Heb je vragen of opmerkingen?"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="terms" required>
+                            Ik snap dat <code>!important</code> geen oplossing is 😄
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        <span>Inschrijven</span>
+                        <span class="button-arrow">→</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>&lt;CodeCraft/&gt;</h3>
+                    <p>
+                        Gemaakt met <span class="heart">❤️</span> en veel ☕
+                    </p>
+                    <p class="easter-egg">
+                        <small>
+                            💡 <strong>Pro tip:</strong> Druk op <kbd>F12</kbd> of
+                            <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd> om DevTools te openen!
+                        </small>
+                    </p>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><a href="#voorbeelden">Voorbeelden</a></li>
+                        <li><a href="#tips">Tips</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTML" target="_blank">MDN HTML</a></li>
+                        <li><a href="https://developer.mozilla.org/en-US/docs/Web/CSS" target="_blank">MDN CSS</a></li>
+                        <li><a href="https://css-tricks.com" target="_blank">CSS-Tricks</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <address>
+                        Groningen, Nederland<br>
+                        <a href="mailto:info@codecraft.nl">info@codecraft.nl</a>
+                    </address>
+                    <p style="margin-top: 1rem;">
+                        <strong>Fun fact:</strong> Deze site gebruikt <sub>bijna</sub>
+                        geen JavaScript! <sup>*</sup>
+                    </p>
+                    <small><sup>*</sup>Alleen voor flexbox buttons</small>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="footer-bottom">
+                <p>&copy; <time datetime="2024">2024</time> CodeCraft. WebTech Project.</p>
+                <p class="tech-stack">
+                    <strong>Built with:</strong>
+                    <code>HTML5</code>
+                    <code>CSS3</code>
+                    <code>❤️</code>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!--
+        ════════════════════════════════════════
+        Je hebt het einde bereikt! 🎉
+        Pro tip: Check ook de CSS file!
+        ════════════════════════════════════════
+    -->
+</body>
+</html>
