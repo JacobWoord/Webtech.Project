@@ -1,28 +1,38 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
+    <!-- Basis instellingen voor de pagina (taal, tekenset, etc.) -->
     <meta charset="UTF-8">
+    <!-- Zorgt ervoor dat de site ook goed schaalt op mobiel -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Korte beschrijving voor zoekmachines -->
     <meta name="description" content="CodeCraft - Leer HTML & CSS op een interactieve manier">
+    <!-- Keywords voor SEO (wordt tegenwoordig minder gebruikt, maar is prima voor school) -->
     <meta name="keywords" content="HTML, CSS, tutorial, leren, webdevelopment">
+    <!-- Auteur van de pagina -->
     <meta name="author" content="CodeCraft">
+    <!-- Titel van het tabblad in de browser -->
     <title>CodeCraft - HTML & CSS Playground</title>
+    <!-- Hier koppel ik mijn externe CSS bestand -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <!--
         Easter egg: Je bent nu in de source code!
-        Scroll naar beneden voor meer... 👀
+        Dit ziet de normale bezoeker niet, alleen mensen die de HTML checken 👀
     -->
 
-    <!-- Navigatiebalk -->
+    <!-- Navigatiebalk bovenaan de pagina -->
     <nav class="navbar">
         <div class="nav-container">
+            <!-- Logo linksboven, linkt terug naar de "home" sectie -->
             <a href="#home" class="logo">
+                <!-- Deze spans gebruik ik om de < > in het logo apart te stylen -->
                 <span class="logo-bracket">&lt;</span>
                 <strong>Code</strong>Craft
                 <span class="logo-bracket">/&gt;</span>
             </a>
+            <!-- Simpele navigatie lijst met ankerlinks naar de secties op deze pagina -->
             <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#over">Over</a></li>
@@ -33,38 +43,49 @@
         </div>
     </nav>
 
-    <!-- Hero Banner -->
+    <!-- Hero Banner / welkom sectie bovenaan -->
     <header class="hero" id="home">
         <div class="hero-content">
+            <!-- 
+                Glitch-effect titel.
+                data-text wordt in de CSS gebruikt (met ::before/::after) om de “glitch” te maken.
+                &lt; en &gt; zijn HTML entities zodat de < > als tekst worden getoond.
+            -->
             <h1 class="glitch" data-text="&lt;Learn HTML & CSS/&gt;">
                 &lt;Learn HTML & CSS/&gt;
-            </h1>
+            </h1>      
             <p class="hero-subtitle">
+            <!-- Het <mark> element gebruik ik om tekst te highlighten (standaard gele achtergrond) -->
                 Ontdek de <mark>bouwstenen van het web</mark> met interactieve voorbeelden
             </p>
+            <!-- Call-to-action knoppen om mensen naar de voorbeelden en tips te sturen -->
             <div class="cta-buttons">
                 <a href="#voorbeelden" class="cta-button primary">Bekijk Voorbeelden</a>
                 <a href="#tips" class="cta-button secondary">Pro Tips</a>
             </div>
         </div>
+        <!-- Dit zijn "losse" code-snippets die ik met CSS laat zweven als decoratie -->
         <div class="floating-code">&lt;div&gt;</div>
         <div class="floating-code delayed">&lt;/div&gt;</div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Main content: hier staat de echte inhoud van de pagina -->
     <main>
-        <!-- Over sectie -->
+        <!-- Over sectie: korte uitleg wat HTML en CSS zijn -->
         <section class="intro" id="over">
             <div class="container">
                 <h2>Wat is HTML & CSS?</h2>
+                <!-- Grid met twee info-kaarten naast elkaar (HTML en CSS) -->
                 <div class="info-grid">
                     <article class="info-card">
                         <h3>&lt;HTML&gt;</h3>
+                        <!-- Hier leg ik in gewone taal uit wat HTML doet -->
                         <p>
                             <strong>HyperText Markup Language</strong> - De structuur van een website.
                             HTML bepaalt <em>wat</em> er op een pagina staat: tekst, afbeeldingen,
                             links, formulieren, etc.
                         </p>
+                        <!-- Quote om het beeldend uit te leggen -->
                         <blockquote>
                             "HTML is het skelet van het web"
                         </blockquote>
@@ -72,6 +93,7 @@
 
                     <article class="info-card">
                         <h3>{ CSS }</h3>
+                        <!-- En hier hetzelfde voor CSS -->
                         <p>
                             <strong>Cascading Style Sheets</strong> - De styling van een website.
                             CSS bepaalt <em>hoe</em> alles eruitziet: kleuren, fonts, layout,
@@ -89,12 +111,14 @@
         <section class="examples" id="voorbeelden">
             <div class="container">
                 <h2>Interactieve Voorbeelden</h2>
+                <!-- Korte intro tekst voor deze sectie -->
                 <p class="section-intro">Hover over de voorbeelden om CSS in actie te zien! ✨</p>
 
-                <!-- Box Model Demo -->
+                <!-- Voorbeeld 1: Box Model uitleg -->
                 <article class="example-box">
                     <h3>1. De CSS Box Model</h3>
                     <p>Elk element bestaat uit <strong>vier lagen</strong>:</p>
+                    <!-- Deze nested divs stellen de verschillende lagen van het box model voor -->
                     <div class="box-model-demo">
                         <div class="box-layer margin-layer">
                             <span class="label">margin</span>
@@ -109,6 +133,7 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Met <details> en <summary> maak ik een uitklapblokje voor de code -->
                     <details class="code-reveal">
                         <summary>💡 Bekijk de CSS code</summary>
                         <pre><code>.element {
@@ -120,16 +145,19 @@
                     </details>
                 </article>
 
-                <!-- Flexbox Demo -->
+                <!-- Voorbeeld 2: Flexbox demo -->
                 <article class="example-box">
                     <h3>2. Flexbox Layout</h3>
                     <p>Flexbox maakt <em>uitlijnen super makkelijk</em>. Probeer de buttons:</p>
                     <div class="flexbox-demo">
+                        <!-- Deze container krijgt display:flex in de CSS -->
                         <div class="flex-container" id="flex-demo">
+                            <!-- Simpele blokjes die meebewegen als je de knoppen klikt -->
                             <div class="flex-item">1</div>
                             <div class="flex-item">2</div>
                             <div class="flex-item">3</div>
                         </div>
+                        <!-- Buttons die inline een beetje JavaScript gebruiken om justify-content aan te passen -->
                         <div class="flex-controls">
                             <button onclick="document.getElementById('flex-demo').style.justifyContent='flex-start'">
                                 flex-start
@@ -145,6 +173,7 @@
                             </button>
                         </div>
                     </div>
+                    <!-- Hier laat ik nog een klein CSS voorbeeld zien van een flex container -->
                     <details class="code-reveal">
                         <summary>💡 Bekijk de CSS code</summary>
                         <pre><code>.container {
@@ -155,11 +184,12 @@
                     </details>
                 </article>
 
-                <!-- Animations Demo -->
+                <!-- Voorbeeld 3: Animaties / transforms -->
                 <article class="example-box">
                     <h3>3. CSS Transforms & Animations</h3>
                     <p>Hover over de kaarten voor <mark>coole effecten</mark>:</p>
                     <div class="animation-demo">
+                        <!-- Elke demo-card heeft in de CSS een eigen hover-effect -->
                         <div class="demo-card rotate-card">
                             <strong>rotate()</strong>
                             <p>360° draai</p>
@@ -172,6 +202,7 @@
                             <strong>translate()</strong>
                             <p>Beweegt</p>
                         </div>
+                        <!-- Flip-card gebruikt meestal 3D transform in de CSS -->
                         <div class="demo-card flip-card">
                             <div class="flip-inner">
                                 <div class="flip-front">
@@ -185,10 +216,11 @@
                     </div>
                 </article>
 
-                <!-- Kleuren Tabel -->
+                <!-- Voorbeeld 4: Kleuren tabel -->
                 <article class="example-box">
                     <h3>4. CSS Kleuren</h3>
                     <p>Verschillende manieren om kleuren te definiëren:</p>
+                    <!-- Tabel met voorbeelden van kleurformaten en een live voorbeeldvakje -->
                     <table class="color-table">
                         <caption>CSS Color Formats</caption>
                         <thead>
@@ -225,13 +257,15 @@
             </div>
         </section>
 
-        <!-- Pro Tips sectie -->
+        <!-- Pro Tips sectie: do's en don'ts -->
         <section class="tips" id="tips">
             <div class="container">
                 <h2>Pro Tips & Best Practices</h2>
+                <!-- Grid met "do" en "don't" kaartjes -->
                 <div class="tips-grid">
                     <article class="tip-card do">
                         <h3>✅ DO: Gebruik Semantische HTML</h3>
+                        <!-- Voorbeeld hoe je mooie semantische tags gebruikt in plaats van alleen divs -->
                         <pre><code>&lt;header&gt;
   &lt;nav&gt;...&lt;/nav&gt;
 &lt;/header&gt;
@@ -243,6 +277,7 @@
 
                     <article class="tip-card dont">
                         <h3>❌ DON'T: Div Soup</h3>
+                        <!-- Hier laat ik zien hoe het niet moet: alles met divs -->
                         <pre><code>&lt;div class="header"&gt;
   &lt;div class="nav"&gt;...&lt;/div&gt;
 &lt;/div&gt;
@@ -252,6 +287,7 @@
 
                     <article class="tip-card do">
                         <h3>✅ DO: CSS Variables</h3>
+                        <!-- Voorbeeld hoe je CSS variabelen gebruikt zodat je kleuren op één plek beheert -->
                         <pre><code>:root {
   --primary: #3498db;
 }
@@ -263,6 +299,7 @@
 
                     <article class="tip-card dont">
                         <h3>❌ DON'T: Te veel !important</h3>
+                        <!-- Voorbeeld van hoe het rommelig wordt als je overal !important gooit -->
                         <pre><code>.text {
   color: red !important;
   font-size: 16px !important;
@@ -271,11 +308,12 @@
                     </article>
                 </div>
 
-                <!-- Hall of Fame/Shame -->
+                <!-- Grappige sectie met oude/verboden HTML tags -->
                 <article class="hall-of-shame">
                     <h3>🏛️ Deprecated HTML Hall of Shame</h3>
                     <p>Deze tags waren cool in de jaren '90, maar gebruik ze <del>nooit</del> meer:</p>
                     <div class="deprecated-grid">
+                        <!-- Voor elke oude tag geef ik een alternatief in CSS -->
                         <div class="deprecated-tag">
                             <code>&lt;marquee&gt;</code>
                             <p class="marquee-demo">Scrollende text!</p>
@@ -301,32 +339,38 @@
             </div>
         </section>
 
-        <!-- Contact sectie -->
+        <!-- Contact / inschrijf sectie -->
         <section class="contact" id="contact">
             <div class="container">
                 <h2>Schrijf je in!</h2>
+                <!-- Hier leg ik uit wat je krijgt als je je inschrijft -->
                 <p class="section-intro">
                     Ontvang wekelijkse <strong>HTML & CSS tips</strong> en blijf up-to-date met
                     de laatste web development trends voor <time datetime="2024">2024</time>!
                 </p>
+                <!-- Simpel inschrijfformulier (fake, action="#" is geen echte back-end) -->
                 <form class="contact-form" action="#" method="post">
+                    <!-- Fieldset om form velden te groeperen (beter voor structuur en accessibility) -->
                     <fieldset>
                         <legend>Persoonlijke Gegevens</legend>
 
                         <div class="form-group">
                             <label for="name">Naam:</label>
+                            <!-- required zorgt ervoor dat je dit veld niet leeg mag laten -->
                             <input type="text" id="name" name="name" required
                                    placeholder="Je volledige naam">
                         </div>
 
                         <div class="form-group">
                             <label for="email">E-mail:</label>
+                            <!-- type="email" zorgt voor simpele validatie in de browser -->
                             <input type="email" id="email" name="email" required
                                    placeholder="jouw@email.nl">
                         </div>
 
                         <div class="form-group">
                             <label for="level">Niveau:</label>
+                            <!-- Dropdown om je level te kiezen -->
                             <select id="level" name="level" required>
                                 <option value="">Selecteer je niveau...</option>
                                 <option value="beginner">🌱 Beginner</option>
@@ -339,6 +383,7 @@
                     <fieldset>
                         <legend>Interesses</legend>
 
+                        <!-- Checkboxen: je kunt meerdere interesses tegelijk aanvinken -->
                         <div class="checkbox-group">
                             <label>
                                 <input type="checkbox" name="interest" value="html">
@@ -358,6 +403,7 @@
                     <fieldset>
                         <legend>Hoe wil je leren?</legend>
 
+                        <!-- Radio buttons: je kunt maar één leer-methode tegelijk kiezen -->
                         <div class="radio-group">
                             <label>
                                 <input type="radio" name="method" value="video" required>
@@ -376,17 +422,20 @@
 
                     <div class="form-group">
                         <label for="message">Bericht <small>(optioneel)</small>:</label>
+                        <!-- Tekstvak voor extra opmerkingen / vragen -->
                         <textarea id="message" name="message" rows="4"
                                   placeholder="Heb je vragen of opmerkingen?"></textarea>
                     </div>
 
                     <div class="form-group">
+                        <!-- Grappige checkbox over !important, maar ook meteen een "akkoord" soort optie -->
                         <label class="checkbox-label">
                             <input type="checkbox" name="terms" required>
                             Ik snap dat <code>!important</code> geen oplossing is 😄
                         </label>
                     </div>
 
+                    <!-- Submit knop om het formulier te versturen -->
                     <button type="submit" class="submit-button">
                         <span>Inschrijven</span>
                         <span class="button-arrow">→</span>
@@ -396,23 +445,26 @@
         </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer onderaan de pagina -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
+                <!-- Linker blokje in de footer met een kleine Easter egg -->
                 <div class="footer-section">
                     <h3>&lt;CodeCraft/&gt;</h3>
                     <p>
-                        Gemaakt met <span class="heart">❤️</span> en veel ☕
+                        Gemaakt met <span class="heart">❤️</span> en ☕
                     </p>
                     <p class="easter-egg">
                         <small>
+                            <!-- Kleine tip voor developers in wording: zo open je DevTools -->
                             💡 <strong>Pro tip:</strong> Druk op <kbd>F12</kbd> of
                             <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd> om DevTools te openen!
                         </small>
                     </p>
                 </div>
 
+                <!-- Snelkoppelingen naar de secties op de pagina -->
                 <div class="footer-section">
                     <h4>Links</h4>
                     <ul>
@@ -422,6 +474,7 @@
                     </ul>
                 </div>
 
+                <!-- Externe resources voor wie verder wil leren -->
                 <div class="footer-section">
                     <h4>Resources</h4>
                     <ul>
@@ -431,6 +484,7 @@
                     </ul>
                 </div>
 
+                <!-- Contactgegevens / "nep" adres -->
                 <div class="footer-section">
                     <h4>Contact</h4>
                     <address>
@@ -438,6 +492,7 @@
                         <a href="mailto:info@codecraft.nl">info@codecraft.nl</a>
                     </address>
                     <p style="margin-top: 1rem;">
+                        <!-- Klein grapje over dat er bijna geen JS in zit -->
                         <strong>Fun fact:</strong> Deze site gebruikt <sub>bijna</sub>
                         geen JavaScript! <sup>*</sup>
                     </p>
@@ -447,6 +502,7 @@
 
             <hr>
 
+            <!-- Onderste balk met jaartal en gebruikte tech -->
             <div class="footer-bottom">
                 <p>&copy; <time datetime="2024">2024</time> CodeCraft. WebTech Project.</p>
                 <p class="tech-stack">
@@ -461,8 +517,9 @@
 
     <!--
         ════════════════════════════════════════
-        Je hebt het einde bereikt! 🎉
+        Je hebt het einde bereikt! 
         Pro tip: Check ook de CSS file!
+        Hier staat namelijk alle styling en animaties ingesteld.
         ════════════════════════════════════════
     -->
 </body>
