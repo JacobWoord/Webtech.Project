@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CodeCraft - Registreer voor onze cursussen">
+    <title>CodeCraft - Registreren</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigatiebalk -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span class="logo-bracket">&lt;</span>
+                <strong>Code</strong>Craft
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Inloggen</a></li>
+                <li><a href="register.html">Registreren</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="contact" id="register">
+            <div class="container">
+                <h2>Registreren</h2>
+                <p class="section-intro">
+                    Maak een account aan om je in te schrijven voor onze <strong>cursussen</strong>!
+                </p>
+                <form class="contact-form" id="registerForm" action="#" method="post">
+                    <fieldset>
+                        <legend>Account Gegevens</legend>
+
+                        <div class="form-group">
+                            <label for="name">Volledige naam:</label>
+                            <input type="text" id="name" name="name" required
+                                   placeholder="Je volledige naam">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">E-mail:</label>
+                            <input type="email" id="email" name="email" required
+                                   placeholder="jouw@email.nl">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password">Wachtwoord:</label>
+                            <input type="password" id="password" name="password" required
+                                   placeholder="Minimaal 8 karakters" minlength="8">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="password_confirm">Bevestig wachtwoord:</label>
+                            <input type="password" id="password_confirm" name="password_confirm" required
+                                   placeholder="Herhaal je wachtwoord">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="level">Ervaring niveau:</label>
+                            <select id="level" name="level" required>
+                                <option value="">Selecteer je niveau...</option>
+                                <option value="beginner">Beginner</option>
+                                <option value="intermediate">Intermediate</option>
+                                <option value="advanced">Advanced</option>
+                            </select>
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="terms" required>
+                            Ik ga akkoord met de algemene voorwaarden
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-button">
+                        <span>Account Aanmaken</span>
+                        <span class="button-arrow">&rarr;</span>
+                    </button>
+
+                    <p style="text-align: center; margin-top: 1.5rem;">
+                        Heb je al een account? <a href="login.html">Log hier in</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 CodeCraft. WebTech Project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('password_confirm').value;
+
+            if (password !== passwordConfirm) {
+                alert('Wachtwoorden komen niet overeen!');
+                return;
+            }
+
+            const data = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                password: password,
+                level: document.getElementById('level').value
+            };
+
+            try {
+                const response = await fetch('/api/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Account aangemaakt! Je wordt doorgestuurd naar de login pagina.');
+                    window.location.href = '/login.html';
+                } else {
+                    alert('Fout: ' + result.message);
+                }
+            } catch (error) {
+                alert('Er is een fout opgetreden. Probeer het opnieuw.');
+                console.error(error);
+            }
+        });
+    </script>
+</body>
+</html>
