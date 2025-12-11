@@ -2494,9 +2494,672 @@ input:disabled {
     }
 }
 
+/* ==================== INTERACTIVE PLAYGROUND STYLES ==================== */
+
+/* General Playground Container */
+.playground-section {
+    background: var(--bg-secondary);
+    padding: var(--spacing-lg) 0;
+}
+
+.playground-card {
+    background: white;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+}
+
+.playground-card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.playground-card h3 .emoji {
+    font-size: 1.5rem;
+}
+
+.playground-description {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+}
+
+/* Two Column Layout */
+.playground-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+@media (max-width: 900px) {
+    .playground-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Controls Panel */
+.playground-controls {
+    background: var(--bg-secondary);
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+}
+
+.control-group {
+    margin-bottom: 1.5rem;
+}
+
+.control-group:last-child {
+    margin-bottom: 0;
+}
+
+.control-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.control-group label span {
+    font-weight: normal;
+    color: var(--primary-color);
+    font-family: monospace;
+    background: rgba(102, 126, 234, 0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: var(--radius-sm);
+}
+
+/* Custom Range Slider */
+.playground-controls input[type="range"] {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+}
+
+.playground-controls input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: white;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    transition: transform var(--transition-fast);
+}
+
+.playground-controls input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+.playground-controls select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--bg-secondary);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+}
+
+.playground-controls select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Preview Panel */
+.playground-preview {
+    background: white;
+    border: 2px dashed var(--text-light);
+    border-radius: var(--radius-md);
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.playground-preview.dark {
+    background: var(--bg-dark);
+}
+
+/* Code Output */
+.code-output {
+    background: var(--bg-dark);
+    border-radius: var(--radius-md);
+    padding: 1rem;
+    margin-top: 1rem;
+    overflow-x: auto;
+}
+
+.code-output code {
+    color: #a5d6ff;
+    font-size: 0.9rem;
+    white-space: pre;
+    display: block;
+}
+
+/* Action Buttons */
+.playground-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+}
+
+.playground-btn {
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 0.9rem;
+}
+
+.playground-btn.primary {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+}
+
+.playground-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.playground-btn.secondary {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+}
+
+.playground-btn.secondary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* ==================== LIVE CSS EDITOR ==================== */
+.css-input {
+    width: 100%;
+    height: 200px;
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    padding: 1rem;
+    border: 2px solid var(--bg-secondary);
+    border-radius: var(--radius-md);
+    resize: vertical;
+    background: var(--bg-dark);
+    color: #a5d6ff;
+}
+
+.css-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.css-preview {
+    padding: 2rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.css-preview .demo-box {
+    width: 100px;
+    height: 100px;
+    background: var(--primary-color);
+    border-radius: var(--radius-md);
+    transition: all 0.3s ease;
+}
+
+/* ==================== BOX MODEL PLAYGROUND ==================== */
+.box-target {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border: 5px solid var(--accent-color);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    transition: all var(--transition-base);
+}
+
+.box-model-visual {
+    position: relative;
+    padding: 40px;
+    background: rgba(246, 173, 85, 0.2);
+    border: 2px dashed #f6ad55;
+    border-radius: var(--radius-md);
+}
+
+.box-model-visual::before {
+    content: 'margin';
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    font-size: 0.7rem;
+    color: #c05621;
+    font-weight: 600;
+}
+
+/* ==================== FLEXBOX LAB ==================== */
+.flex-lab-container {
+    display: flex;
+    gap: 10px;
+    min-height: 200px;
+    padding: 1rem;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: var(--radius-md);
+    transition: all var(--transition-base);
+    width: 100%;
+}
+
+.flex-lab-item {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-fast);
+}
+
+.flex-lab-item:hover {
+    transform: scale(1.1);
+}
+
+/* ==================== GRID BUILDER ==================== */
+.grid-builder-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+    min-height: 250px;
+    padding: 1rem;
+    background: rgba(102, 126, 234, 0.1);
+    border-radius: var(--radius-md);
+    width: 100%;
+}
+
+.grid-item {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    min-height: 50px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.grid-item:hover {
+    transform: scale(0.95);
+    opacity: 0.8;
+}
+
+/* ==================== COLOR MIXER ==================== */
+.color-preview-box {
+    width: 150px;
+    height: 150px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    transition: background var(--transition-fast);
+}
+
+.color-sliders input[type="range"] {
+    height: 12px;
+}
+
+#color-r {
+    background: linear-gradient(to right, #000, #f00) !important;
+}
+
+#color-g {
+    background: linear-gradient(to right, #000, #0f0) !important;
+}
+
+#color-b {
+    background: linear-gradient(to right, #000, #00f) !important;
+}
+
+#color-a {
+    background: linear-gradient(to right, transparent, var(--primary-color)) !important;
+}
+
+/* ==================== TYPOGRAPHY STUDIO ==================== */
+.typo-preview {
+    padding: 2rem;
+    text-align: center;
+    min-height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: var(--radius-md);
+    word-break: break-word;
+    width: 100%;
+}
+
+#typo-text {
+    width: 100%;
+    padding: 0.8rem;
+    border: 2px solid var(--bg-secondary);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+}
+
+/* ==================== ANIMATION CREATOR ==================== */
+.animation-preview-box {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Animation Keyframes */
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-30px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes swing {
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(15deg); }
+    75% { transform: rotate(-15deg); }
+}
+
+@keyframes rubberBand {
+    0%, 100% { transform: scaleX(1); }
+    30% { transform: scaleX(1.25) scaleY(0.75); }
+    40% { transform: scaleX(0.75) scaleY(1.25); }
+    60% { transform: scaleX(1.15) scaleY(0.85); }
+}
+
+/* ==================== TRANSFORM PLAYGROUND ==================== */
+.transform-preview-wrapper {
+    perspective: 800px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+}
+
+.transform-preview-box {
+    width: 120px;
+    height: 120px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.1s ease-out;
+    transform-style: preserve-3d;
+}
+
+/* ==================== GRADIENT GENERATOR ==================== */
+.gradient-preview-box {
+    width: 100%;
+    height: 200px;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-base);
+}
+
+.color-input-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.color-input-group input[type="color"] {
+    width: 50px;
+    height: 40px;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+/* ==================== SELECTOR GAME ==================== */
+.game-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+    .game-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+.game-html-display {
+    background: var(--bg-dark);
+    color: #a5d6ff;
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    font-family: monospace;
+    font-size: 0.95rem;
+    white-space: pre-wrap;
+}
+
+.game-preview {
+    background: white;
+    padding: 1.5rem;
+    border-radius: var(--radius-md);
+    border: 2px solid var(--bg-secondary);
+    min-height: 100px;
+}
+
+.game-preview .highlighted {
+    outline: 3px solid var(--success-color) !important;
+    outline-offset: 2px;
+    animation: highlightPulse 0.5s ease;
+}
+
+@keyframes highlightPulse {
+    0%, 100% { outline-color: var(--success-color); }
+    50% { outline-color: var(--primary-color); }
+}
+
+.game-input-area {
+    display: flex;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+#selector-input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 2px solid var(--bg-secondary);
+    border-radius: var(--radius-md);
+    font-family: monospace;
+    font-size: 1rem;
+}
+
+#selector-input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+.game-hint {
+    color: var(--text-secondary);
+    font-style: italic;
+    margin-bottom: 1rem;
+}
+
+.game-feedback {
+    padding: 0.8rem;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    margin-top: 1rem;
+}
+
+.game-feedback.correct {
+    background: rgba(74, 222, 128, 0.2);
+    color: #16a34a;
+}
+
+.game-feedback.incorrect {
+    background: rgba(239, 68, 68, 0.2);
+    color: #dc2626;
+}
+
+.game-feedback.final {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.game-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.game-score {
+    color: var(--primary-color);
+}
+
+.game-level {
+    color: var(--text-secondary);
+}
+
+/* ==================== SHADOW GENERATOR ==================== */
+.shadow-preview-box {
+    width: 150px;
+    height: 150px;
+    background: white;
+    border-radius: var(--radius-md);
+    transition: box-shadow var(--transition-fast);
+}
+
+/* ==================== TABS NAVIGATION ==================== */
+.playground-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-md);
+    flex-wrap: wrap;
+    background: var(--bg-secondary);
+    padding: 0.5rem;
+    border-radius: var(--radius-lg);
+}
+
+.playground-tab {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-secondary);
+    transition: all var(--transition-fast);
+}
+
+.playground-tab:hover {
+    color: var(--primary-color);
+    background: white;
+}
+
+.playground-tab.active {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+.playground-panel {
+    display: none;
+}
+
+.playground-panel.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==================== RESPONSIVE PLAYGROUND ==================== */
+@media (max-width: 768px) {
+    .playground-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .playground-tabs {
+        justify-content: center;
+    }
+
+    .playground-tab {
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .control-group label {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+}
+
 /*
   ╔════════════════════════════════════════════════════════╗
   ║  Einde van stylesheet                                  ║
-  ║  Thanks for reading! Happy coding! 🚀                  ║
+  ║  Thanks for reading! Happy coding!                     ║
   ╚════════════════════════════════════════════════════════╝
 */

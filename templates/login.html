@@ -1,127 +1,83 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CodeCraft - Log in op je account">
-    <title>CodeCraft - Inloggen</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <!-- Navigatiebalk -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="logo">
-                <span class="logo-bracket">&lt;</span>
-                <strong>Code</strong>Craft
-                <span class="logo-bracket">/&gt;</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
-                {% if logged_in %}
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    {% if is_admin %}
-                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
-                    <li class="nav-user">
-                        <span class="user-greeting">Hallo, {{ user_name }}</span>
-                    </li>
-                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
-                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+{% extends "base.html" %}
 
-    <!-- Main Content -->
-    <main>
-        <section class="contact" id="login">
-            <div class="container">
-                <h2>Inloggen</h2>
-                <p class="section-intro">
-                    Log in om toegang te krijgen tot je <strong>cursussen</strong> en <strong>opdrachten</strong>.
-                </p>
-                <form class="contact-form" id="loginForm" action="#" method="post">
-                    <fieldset>
-                        <legend>Login Gegevens</legend>
+{% block title %}Inloggen - CodeCraft{% endblock %}
+{% block description %}CodeCraft - Log in op je account{% endblock %}
 
-                        <div class="form-group">
-                            <label for="email">E-mail:</label>
-                            <input type="email" id="email" name="email" required
-                                   placeholder="jouw@email.nl">
-                        </div>
+{% block content %}
+<section class="contact" id="login">
+    <div class="container">
+        <h2>Inloggen</h2>
+        <p class="section-intro">
+            Log in om toegang te krijgen tot je <strong>cursussen</strong> en <strong>opdrachten</strong>.
+        </p>
+        <form class="contact-form" id="loginForm" action="#" method="post">
+            <fieldset>
+                <legend>Login Gegevens</legend>
 
-                        <div class="form-group">
-                            <label for="password">Wachtwoord:</label>
-                            <input type="password" id="password" name="password" required
-                                   placeholder="Je wachtwoord">
-                        </div>
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" id="email" name="email" required
+                           placeholder="jouw@email.nl">
+                </div>
 
-                        <div class="form-group">
-                            <label class="checkbox-label">
-                                <input type="checkbox" name="remember">
-                                Onthoud mij
-                            </label>
-                        </div>
-                    </fieldset>
+                <div class="form-group">
+                    <label for="password">Wachtwoord:</label>
+                    <input type="password" id="password" name="password" required
+                           placeholder="Je wachtwoord">
+                </div>
 
-                    <button type="submit" class="submit-button">
-                        <span>Inloggen</span>
-                        <span class="button-arrow">&rarr;</span>
-                    </button>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" name="remember">
+                        Onthoud mij
+                    </label>
+                </div>
+            </fieldset>
 
-                    <p style="text-align: center; margin-top: 1.5rem;">
-                        Nog geen account? <a href="{{ url_for('register_page') }}">Registreer hier</a>
-                    </p>
-                </form>
-            </div>
-        </section>
-    </main>
+            <button type="submit" class="submit-button">
+                <span>Inloggen</span>
+                <span class="button-arrow">&rarr;</span>
+            </button>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 CodeCraft. WebTech Project.</p>
-            </div>
-        </div>
-    </footer>
+            <p style="text-align: center; margin-top: 1.5rem;">
+                Nog geen account? <a href="{{ url_for('register_page') }}">Registreer hier</a>
+            </p>
+        </form>
+    </div>
+</section>
+{% endblock %}
 
-    <script>
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+{% block extra_js %}
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
 
-            const data = {
-                email: document.getElementById('email').value,
-                password: document.getElementById('password').value
-            };
+        const data = {
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        };
 
-            try {
-                const response = await fetch('/api/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data)
-                });
+        try {
+            const response = await fetch('/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
 
-                const result = await response.json();
+            const result = await response.json();
 
-                if (result.success) {
-                    alert('Welkom terug, ' + result.user.name + '!');
-                    window.location.href = '/';
-                } else {
-                    alert('Fout: ' + result.message);
-                }
-            } catch (error) {
-                alert('Er is een fout opgetreden. Probeer het opnieuw.');
-                console.error(error);
+            if (result.success) {
+                alert('Welkom terug, ' + result.user.name + '!');
+                window.location.href = '/';
+            } else {
+                alert('Fout: ' + result.message);
             }
-        });
-    </script>
-</body>
-</html>
+        } catch (error) {
+            alert('Er is een fout opgetreden. Probeer het opnieuw.');
+            console.error(error);
+        }
+    });
+</script>
+{% endblock %}

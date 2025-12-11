@@ -1,108 +1,62 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CodeCraft - Bekijk onze cursussen">
-    <title>Cursussen - CodeCraft</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <!-- Navigatiebalk -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="logo">
-                <span class="logo-bracket">&lt;</span>
-                <strong>Code</strong>Craft
-                <span class="logo-bracket">/&gt;</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
-                {% if logged_in %}
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    {% if is_admin %}
-                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
-                    <li class="nav-user">
-                        <span class="user-greeting">Hallo, {{ user_name }}</span>
-                    </li>
-                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
-                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+{% extends "base.html" %}
 
-    <!-- Main Content -->
-    <main>
-        <section class="contact" id="courses">
-            <div class="container">
-                <h2>Beschikbare Cursussen</h2>
-                <p class="section-intro">
-                    Ontdek onze cursussen en schrijf je in om te beginnen met leren!
-                </p>
+{% block title %}Cursussen - CodeCraft{% endblock %}
+{% block description %}CodeCraft - Bekijk onze cursussen{% endblock %}
 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
+{% block content %}
+<section class="contact" id="courses">
+    <div class="container">
+        <h2>Beschikbare Cursussen</h2>
+        <p class="section-intro">
+            Ontdek onze cursussen en schrijf je in om te beginnen met leren!
+        </p>
 
-                {% if courses %}
-                <div class="catalog-grid">
-                    {% for course in courses %}
-                    <article class="catalog-card">
-                        <div class="catalog-card-header">
-                            <h3>{{ course.title }}</h3>
-                        </div>
-                        <div class="catalog-card-body">
-                            <p>{{ course.description[:150] }}{% if course.description|length > 150 %}...{% endif %}</p>
-                        </div>
-                        <div class="catalog-card-footer">
-                            {% if logged_in %}
-                                {% if course.id in enrolled_course_ids %}
-                                    <span class="enrolled-badge">Ingeschreven</span>
-                                {% else %}
-                                    <form action="{{ url_for('enroll_course', id=course.id) }}" method="POST">
-                                        <button type="submit" class="submit-button enroll-btn">
-                                            <span>Inschrijven</span>
-                                            <span class="button-arrow">&rarr;</span>
-                                        </button>
-                                    </form>
-                                {% endif %}
-                            {% else %}
-                                <a href="{{ url_for('login_page') }}" class="submit-button enroll-btn">
-                                    <span>Log in om in te schrijven</span>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if courses %}
+        <div class="catalog-grid">
+            {% for course in courses %}
+            <article class="catalog-card">
+                <div class="catalog-card-header">
+                    <h3>{{ course.title }}</h3>
+                </div>
+                <div class="catalog-card-body">
+                    <p>{{ course.description[:150] }}{% if course.description|length > 150 %}...{% endif %}</p>
+                </div>
+                <div class="catalog-card-footer">
+                    {% if logged_in %}
+                        {% if course.id in enrolled_course_ids %}
+                            <span class="enrolled-badge">Ingeschreven</span>
+                        {% else %}
+                            <form action="{{ url_for('enroll_course', id=course.id) }}" method="POST">
+                                <button type="submit" class="submit-button enroll-btn">
+                                    <span>Inschrijven</span>
                                     <span class="button-arrow">&rarr;</span>
-                                </a>
-                            {% endif %}
-                        </div>
-                    </article>
-                    {% endfor %}
+                                </button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <a href="{{ url_for('login_page') }}" class="submit-button enroll-btn">
+                            <span>Log in om in te schrijven</span>
+                            <span class="button-arrow">&rarr;</span>
+                        </a>
+                    {% endif %}
                 </div>
-                {% else %}
-                <div class="empty-state">
-                    <p>Er zijn nog geen cursussen beschikbaar.</p>
-                    <p>Kom later terug voor nieuwe cursussen!</p>
-                </div>
-                {% endif %}
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 CodeCraft. WebTech Project.</p>
-            </div>
+            </article>
+            {% endfor %}
         </div>
-    </footer>
-</body>
-</html>
+        {% else %}
+        <div class="empty-state">
+            <p>Er zijn nog geen cursussen beschikbaar.</p>
+            <p>Kom later terug voor nieuwe cursussen!</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

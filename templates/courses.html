@@ -1,115 +1,69 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CodeCraft - Cursus Beheer">
-    <title>Cursus Beheer - CodeCraft</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <!-- Navigatiebalk -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="logo">
-                <span class="logo-bracket">&lt;</span>
-                <strong>Code</strong>Craft
-                <span class="logo-bracket">/&gt;</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
-                {% if logged_in %}
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    {% if is_admin %}
-                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
-                    <li class="nav-user">
-                        <span class="user-greeting">Hallo, {{ user_name }}</span>
-                    </li>
-                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
-                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+{% extends "base.html" %}
 
-    <!-- Main Content -->
-    <main>
-        <section class="contact" id="admin-courses">
-            <div class="container">
-                <div class="admin-header">
-                    <h2>Cursus Beheer</h2>
-                    <div class="admin-header-buttons">
-                        <a href="{{ url_for('admin_enrollments') }}" class="btn-action btn-view">Inschrijvingen</a>
-                        <a href="{{ url_for('create_course') }}" class="submit-button">
-                            <span>+ Nieuwe Cursus</span>
-                        </a>
-                    </div>
-                </div>
-                <p class="section-intro">
-                    Beheer hier alle cursussen. Je kunt cursussen toevoegen, bewerken en verwijderen.
-                </p>
+{% block title %}Cursus Beheer - CodeCraft{% endblock %}
+{% block description %}CodeCraft - Cursus Beheer{% endblock %}
 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-
-                {% if courses %}
-                <div class="admin-table-wrapper">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Titel</th>
-                                <th>Beschrijving</th>
-                                <th>Aangemaakt</th>
-                                <th>Acties</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for course in courses %}
-                            <tr>
-                                <td>{{ course.id }}</td>
-                                <td><strong>{{ course.title }}</strong></td>
-                                <td>{{ course.description[:80] }}{% if course.description|length > 80 %}...{% endif %}</td>
-                                <td>{{ course['created_at'][:10] }}</td>
-                                <td class="action-buttons">
-                                    <a href="{{ url_for('view_course', id=course.id) }}" class="btn-action btn-view">Bekijken</a>
-                                    <a href="{{ url_for('edit_course', id=course.id) }}" class="btn-action btn-edit">Bewerken</a>
-                                    <form action="{{ url_for('delete_course', id=course.id) }}" method="POST" style="display: inline;">
-                                        <button type="submit" class="btn-action btn-delete" onclick="return confirm('Weet je zeker dat je deze cursus wilt verwijderen?')">Verwijderen</button>
-                                    </form>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <div class="empty-state">
-                    <p>Er zijn nog geen cursussen.</p>
-                    <p>Maak je eerste cursus aan om te beginnen!</p>
-                </div>
-                {% endif %}
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 CodeCraft. WebTech Project.</p>
+{% block content %}
+<section class="contact" id="admin-courses">
+    <div class="container">
+        <div class="admin-header">
+            <h2>Cursus Beheer</h2>
+            <div class="admin-header-buttons">
+                <a href="{{ url_for('admin_enrollments') }}" class="btn-action btn-view">Inschrijvingen</a>
+                <a href="{{ url_for('create_course') }}" class="submit-button">
+                    <span>+ Nieuwe Cursus</span>
+                </a>
             </div>
         </div>
-    </footer>
-</body>
-</html>
+        <p class="section-intro">
+            Beheer hier alle cursussen. Je kunt cursussen toevoegen, bewerken en verwijderen.
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% if courses %}
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Titel</th>
+                        <th>Beschrijving</th>
+                        <th>Aangemaakt</th>
+                        <th>Acties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for course in courses %}
+                    <tr>
+                        <td>{{ course.id }}</td>
+                        <td><strong>{{ course.title }}</strong></td>
+                        <td>{{ course.description[:80] }}{% if course.description|length > 80 %}...{% endif %}</td>
+                        <td>{{ course['created_at'][:10] }}</td>
+                        <td class="action-buttons">
+                            <a href="{{ url_for('view_course', id=course.id) }}" class="btn-action btn-view">Bekijken</a>
+                            <a href="{{ url_for('edit_course', id=course.id) }}" class="btn-action btn-edit">Bewerken</a>
+                            <form action="{{ url_for('delete_course', id=course.id) }}" method="POST" style="display: inline;">
+                                <button type="submit" class="btn-action btn-delete" onclick="return confirm('Weet je zeker dat je deze cursus wilt verwijderen?')">Verwijderen</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <p>Er zijn nog geen cursussen.</p>
+            <p>Maak je eerste cursus aan om te beginnen!</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

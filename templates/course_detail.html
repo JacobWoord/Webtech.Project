@@ -1,78 +1,32 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CodeCraft - {{ course.title }}">
-    <title>{{ course.title }} - CodeCraft</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <!-- Navigatiebalk -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="logo">
-                <span class="logo-bracket">&lt;</span>
-                <strong>Code</strong>Craft
-                <span class="logo-bracket">/&gt;</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
-                {% if logged_in %}
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    {% if is_admin %}
-                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
-                    <li class="nav-user">
-                        <span class="user-greeting">Hallo, {{ user_name }}</span>
-                    </li>
-                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
-                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+{% extends "base.html" %}
 
-    <!-- Main Content -->
-    <main>
-        <section class="contact" id="course-detail">
-            <div class="container">
-                <h2>{{ course.title }}</h2>
+{% block title %}{{ course.title }} - CodeCraft{% endblock %}
+{% block description %}CodeCraft - {{ course.title }}{% endblock %}
 
-                <div class="course-detail-card">
-                    <div class="course-meta">
-                        <p><strong>Cursus ID:</strong> {{ course.id }}</p>
-                        <p><strong>Aangemaakt:</strong> {{ course['created_at'] }}</p>
-                    </div>
+{% block content %}
+<section class="contact" id="course-detail">
+    <div class="container">
+        <h2>{{ course.title }}</h2>
 
-                    <div class="course-description">
-                        <h3>Beschrijving</h3>
-                        <p>{{ course.description }}</p>
-                    </div>
-
-                    <div class="course-detail-actions">
-                        <a href="{{ url_for('list_courses') }}" class="btn-action btn-back">&larr; Terug naar overzicht</a>
-                        <a href="{{ url_for('edit_course', id=course.id) }}" class="btn-action btn-edit">Bewerken</a>
-                        <form action="{{ url_for('delete_course', id=course.id) }}" method="POST" style="display: inline;">
-                            <button type="submit" class="btn-action btn-delete" onclick="return confirm('Weet je zeker dat je deze cursus wilt verwijderen?')">Verwijderen</button>
-                        </form>
-                    </div>
-                </div>
+        <div class="course-detail-card">
+            <div class="course-meta">
+                <p><strong>Cursus ID:</strong> {{ course.id }}</p>
+                <p><strong>Aangemaakt:</strong> {{ course['created_at'] }}</p>
             </div>
-        </section>
-    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 CodeCraft. WebTech Project.</p>
+            <div class="course-description">
+                <h3>Beschrijving</h3>
+                <p>{{ course.description }}</p>
+            </div>
+
+            <div class="course-detail-actions">
+                <a href="{{ url_for('list_courses') }}" class="btn-action btn-back">&larr; Terug naar overzicht</a>
+                <a href="{{ url_for('edit_course', id=course.id) }}" class="btn-action btn-edit">Bewerken</a>
+                <form action="{{ url_for('delete_course', id=course.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn-action btn-delete" onclick="return confirm('Weet je zeker dat je deze cursus wilt verwijderen?')">Verwijderen</button>
+                </form>
             </div>
         </div>
-    </footer>
-</body>
-</html>
+    </div>
+</section>
+{% endblock %}

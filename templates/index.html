@@ -1,421 +1,766 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <!-- Basis instellingen voor de pagina (taal, tekenset, etc.) -->
-    <meta charset="UTF-8">
-    <!-- Zorgt ervoor dat de site ook goed schaalt op mobiel -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Korte beschrijving voor zoekmachines -->
-    <meta name="description" content="CodeCraft - Leer HTML & CSS op een interactieve manier">
-    <!-- Keywords voor SEO (wordt tegenwoordig minder gebruikt, maar is prima voor school) -->
-    <meta name="keywords" content="HTML, CSS, tutorial, leren, webdevelopment">
-    <!-- Auteur van de pagina -->
-    <meta name="author" content="CodeCraft">
-    <!-- Titel van het tabblad in de browser -->
-    <title>CodeCraft - HTML & CSS Playground</title>
-    <!-- Hier koppel ik mijn externe CSS bestand -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <!--
-        Easter egg: Je bent nu in de source code!
-        Dit ziet de normale bezoeker niet, alleen mensen die de HTML checken 👀
-    -->
+{% extends "base.html" %}
 
-    <!-- Navigatiebalk bovenaan de pagina -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <!-- Logo linksboven, linkt terug naar de "home" sectie -->
-            <a href="#home" class="logo">
-                <!-- Deze spans gebruik ik om de < > in het logo apart te stylen -->
-                <span class="logo-bracket">&lt;</span>
-                <strong>Code</strong>Craft
-                <span class="logo-bracket">/&gt;</span>
-            </a>
-            <!-- Simpele navigatie lijst met ankerlinks naar de secties op deze pagina -->
-            <ul class="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#tips">Tips</a></li>
-                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
-                {% if logged_in %}
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    {% if is_admin %}
-                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
-                    <li class="nav-user">
-                        <span class="user-greeting">Hallo, {{ user_name }}</span>
-                    </li>
-                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
-                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
+{% block title %}CodeCraft - HTML & CSS Playground{% endblock %}
+{% block description %}CodeCraft - Leer HTML & CSS op een interactieve manier{% endblock %}
 
+{% block content %}
     <!-- Hero Banner / welkom sectie bovenaan -->
     <header class="hero" id="home">
         <div class="hero-content">
-            <!-- 
-                Glitch-effect titel.
-                data-text wordt in de CSS gebruikt (met ::before/::after) om de “glitch” te maken.
-                &lt; en &gt; zijn HTML entities zodat de < > als tekst worden getoond.
-            -->
             <h1 class="glitch" data-text="&lt;Learn HTML & CSS/&gt;">
                 &lt;Learn HTML & CSS/&gt;
-            </h1>      
+            </h1>
             <p class="hero-subtitle">
-            <!-- Het <mark> element gebruik ik om tekst te highlighten (standaard gele achtergrond) -->
                 Ontdek de <mark>bouwstenen van het web</mark> met interactieve voorbeelden
             </p>
-            <!-- Call-to-action knoppen om mensen naar de voorbeelden en tips te sturen -->
             <div class="cta-buttons">
                 <a href="#voorbeelden" class="cta-button primary">Bekijk Voorbeelden</a>
                 <a href="#tips" class="cta-button secondary">Pro Tips</a>
             </div>
         </div>
-        <!-- Dit zijn "losse" code-snippets die ik met CSS laat zweven als decoratie -->
         <div class="floating-code">&lt;div&gt;</div>
         <div class="floating-code delayed">&lt;/div&gt;</div>
     </header>
 
-    <!-- Main content: hier staat de echte inhoud van de pagina -->
-    <main>
-        <!-- Over sectie: korte uitleg wat HTML en CSS zijn -->
-        <section class="intro" id="over">
-            <div class="container">
-                <h2>Wat is HTML & CSS?</h2>
-                <!-- Grid met twee info-kaarten naast elkaar (HTML en CSS) -->
-                <div class="info-grid">
-                    <article class="info-card">
-                        <h3>&lt;HTML&gt;</h3>
-                        <!-- Hier leg ik in gewone taal uit wat HTML doet -->
-                        <p>
-                            <strong>HyperText Markup Language</strong> - De structuur van een website.
-                            HTML bepaalt <em>wat</em> er op een pagina staat: tekst, afbeeldingen,
-                            links, formulieren, etc.
-                        </p>
-                        <!-- Quote om het beeldend uit te leggen -->
-                        <blockquote>
-                            "HTML is het skelet van het web"
-                        </blockquote>
-                    </article>
+    <!-- Over sectie -->
+    <section class="intro" id="over">
+        <div class="container">
+            <h2>Wat is HTML & CSS?</h2>
+            <div class="info-grid">
+                <article class="info-card">
+                    <h3>&lt;HTML&gt;</h3>
+                    <p>
+                        <strong>HyperText Markup Language</strong> - De structuur van een website.
+                        HTML bepaalt <em>wat</em> er op een pagina staat: tekst, afbeeldingen,
+                        links, formulieren, etc.
+                    </p>
+                    <blockquote>
+                        "HTML is het skelet van het web"
+                    </blockquote>
+                </article>
 
-                    <article class="info-card">
-                        <h3>{ CSS }</h3>
-                        <!-- En hier hetzelfde voor CSS -->
-                        <p>
-                            <strong>Cascading Style Sheets</strong> - De styling van een website.
-                            CSS bepaalt <em>hoe</em> alles eruitziet: kleuren, fonts, layout,
-                            animaties, etc.
-                        </p>
-                        <blockquote>
-                            "CSS is de kleding van het web"
-                        </blockquote>
-                    </article>
+                <article class="info-card">
+                    <h3>{ CSS }</h3>
+                    <p>
+                        <strong>Cascading Style Sheets</strong> - De styling van een website.
+                        CSS bepaalt <em>hoe</em> alles eruitziet: kleuren, fonts, layout,
+                        animaties, etc.
+                    </p>
+                    <blockquote>
+                        "CSS is de kleding van het web"
+                    </blockquote>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== INTERACTIVE PLAYGROUND ==================== -->
+    <section class="playground-section" id="playground">
+        <div class="container">
+            <h2>Interactieve CSS Playground</h2>
+            <p class="section-intro">
+                Experimenteer live met CSS! Pas waarden aan en zie direct het resultaat.
+                <strong>Geen setup nodig</strong> - leer door te doen!
+            </p>
+
+            <!-- Tabs Navigation -->
+            <div class="playground-tabs">
+                <button class="playground-tab active" data-tab="box-model">Box Model</button>
+                <button class="playground-tab" data-tab="flexbox">Flexbox</button>
+                <button class="playground-tab" data-tab="grid">Grid</button>
+                <button class="playground-tab" data-tab="colors">Kleuren</button>
+                <button class="playground-tab" data-tab="typography">Typography</button>
+                <button class="playground-tab" data-tab="animations">Animaties</button>
+                <button class="playground-tab" data-tab="transforms">Transforms</button>
+                <button class="playground-tab" data-tab="shadows">Shadows</button>
+                <button class="playground-tab" data-tab="gradients">Gradients</button>
+                <button class="playground-tab" data-tab="game">CSS Game</button>
+            </div>
+
+            <!-- ========== BOX MODEL PLAYGROUND ========== -->
+            <div class="playground-panel active" id="box-model-panel">
+                <div class="playground-card" id="box-model-playground">
+                    <h3><span class="emoji">📦</span> Box Model Playground</h3>
+                    <p class="playground-description">
+                        Elk HTML element is een "box". Pas margin, padding en border aan om te zien hoe ze werken!
+                    </p>
+
+                    <div class="playground-layout">
+                        <div class="playground-controls">
+                            <div class="control-group">
+                                <label for="margin-slider">Margin: <span>20px</span></label>
+                                <input type="range" id="margin-slider" data-property="margin" min="0" max="50" value="20">
+                            </div>
+                            <div class="control-group">
+                                <label for="padding-slider">Padding: <span>20px</span></label>
+                                <input type="range" id="padding-slider" data-property="padding" min="0" max="50" value="20">
+                            </div>
+                            <div class="control-group">
+                                <label for="border-slider">Border: <span>5px</span></label>
+                                <input type="range" id="border-slider" data-property="border" min="0" max="20" value="5">
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview">
+                            <div class="box-model-visual">
+                                <div class="box-target">Content</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <!-- Interactieve Voorbeelden sectie -->
-        <section class="examples" id="voorbeelden">
-            <div class="container">
-                <h2>Interactieve Voorbeelden</h2>
-                <!-- Korte intro tekst voor deze sectie -->
-                <p class="section-intro">Hover over de voorbeelden om CSS in actie te zien! ✨</p>
+            <!-- ========== FLEXBOX LAB ========== -->
+            <div class="playground-panel" id="flexbox-panel">
+                <div class="playground-card" id="flexbox-lab">
+                    <h3><span class="emoji">🔲</span> Flexbox Laboratory</h3>
+                    <p class="playground-description">
+                        Flexbox maakt layout super makkelijk! Test alle properties en bouw je eigen layouts.
+                    </p>
 
-                <!-- Voorbeeld 1: Box Model uitleg -->
-                <article class="example-box">
-                    <h3>1. De CSS Box Model</h3>
-                    <p>Elk element bestaat uit <strong>vier lagen</strong>:</p>
-                    <!-- Deze nested divs stellen de verschillende lagen van het box model voor -->
-                    <div class="box-model-demo">
-                        <div class="box-layer margin-layer">
-                            <span class="label">margin</span>
-                            <div class="box-layer border-layer">
-                                <span class="label">border</span>
-                                <div class="box-layer padding-layer">
-                                    <span class="label">padding</span>
-                                    <div class="box-layer content-layer">
-                                        <span class="label">content</span>
-                                    </div>
-                                </div>
+                    <div class="playground-layout">
+                        <div class="playground-controls">
+                            <div class="control-group">
+                                <label for="flex-direction">flex-direction:</label>
+                                <select id="flex-direction" data-property="flexDirection">
+                                    <option value="row">row</option>
+                                    <option value="row-reverse">row-reverse</option>
+                                    <option value="column">column</option>
+                                    <option value="column-reverse">column-reverse</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="justify-content">justify-content:</label>
+                                <select id="justify-content" data-property="justifyContent">
+                                    <option value="flex-start">flex-start</option>
+                                    <option value="center">center</option>
+                                    <option value="flex-end">flex-end</option>
+                                    <option value="space-between">space-between</option>
+                                    <option value="space-around">space-around</option>
+                                    <option value="space-evenly">space-evenly</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="align-items">align-items:</label>
+                                <select id="align-items" data-property="alignItems">
+                                    <option value="stretch">stretch</option>
+                                    <option value="flex-start">flex-start</option>
+                                    <option value="center">center</option>
+                                    <option value="flex-end">flex-end</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="flex-wrap">flex-wrap:</label>
+                                <select id="flex-wrap" data-property="flexWrap">
+                                    <option value="nowrap">nowrap</option>
+                                    <option value="wrap">wrap</option>
+                                    <option value="wrap-reverse">wrap-reverse</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="flex-gap">gap: <span>10px</span></label>
+                                <input type="range" id="flex-gap" data-property="gap" min="0" max="40" value="10">
+                            </div>
+
+                            <div class="playground-actions">
+                                <button class="playground-btn primary add-item-btn">+ Item</button>
+                                <button class="playground-btn secondary remove-item-btn">- Item</button>
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview">
+                            <div class="flex-lab-container">
+                                <div class="flex-lab-item">1</div>
+                                <div class="flex-lab-item">2</div>
+                                <div class="flex-lab-item">3</div>
                             </div>
                         </div>
                     </div>
-                    <!-- Met <details> en <summary> maak ik een uitklapblokje voor de code -->
-                    <details class="code-reveal">
-                        <summary>💡 Bekijk de CSS code</summary>
-                        <pre><code>.element {
-  margin: 20px;      /* Ruimte buiten */
-  border: 5px solid; /* Rand */
-  padding: 15px;     /* Ruimte binnen */
-  /* content hier */
-}</code></pre>
-                    </details>
-                </article>
-
-                <!-- Voorbeeld 2: Flexbox demo -->
-                <article class="example-box">
-                    <h3>2. Flexbox Layout</h3>
-                    <p>Flexbox maakt <em>uitlijnen super makkelijk</em>. Probeer de buttons:</p>
-                    <div class="flexbox-demo">
-                        <!-- Deze container krijgt display:flex in de CSS -->
-                        <div class="flex-container" id="flex-demo">
-                            <!-- Simpele blokjes die meebewegen als je de knoppen klikt -->
-                            <div class="flex-item">1</div>
-                            <div class="flex-item">2</div>
-                            <div class="flex-item">3</div>
-                        </div>
-                        <!-- Buttons die inline een beetje JavaScript gebruiken om justify-content aan te passen -->
-                        <div class="flex-controls">
-                            <button onclick="document.getElementById('flex-demo').style.justifyContent='flex-start'">
-                                flex-start
-                            </button>
-                            <button onclick="document.getElementById('flex-demo').style.justifyContent='center'">
-                                center
-                            </button>
-                            <button onclick="document.getElementById('flex-demo').style.justifyContent='space-between'">
-                                space-between
-                            </button>
-                            <button onclick="document.getElementById('flex-demo').style.justifyContent='space-around'">
-                                space-around
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Hier laat ik nog een klein CSS voorbeeld zien van een flex container -->
-                    <details class="code-reveal">
-                        <summary>💡 Bekijk de CSS code</summary>
-                        <pre><code>.container {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}</code></pre>
-                    </details>
-                </article>
-
-                <!-- Voorbeeld 3: Animaties / transforms -->
-                <article class="example-box">
-                    <h3>3. CSS Transforms & Animations</h3>
-                    <p>Hover over de kaarten voor <mark>coole effecten</mark>:</p>
-                    <div class="animation-demo">
-                        <!-- Elke demo-card heeft in de CSS een eigen hover-effect -->
-                        <div class="demo-card rotate-card">
-                            <strong>rotate()</strong>
-                            <p>360° draai</p>
-                        </div>
-                        <div class="demo-card scale-card">
-                            <strong>scale()</strong>
-                            <p>Vergroot</p>
-                        </div>
-                        <div class="demo-card translate-card">
-                            <strong>translate()</strong>
-                            <p>Beweegt</p>
-                        </div>
-                        <!-- Flip-card gebruikt meestal 3D transform in de CSS -->
-                        <div class="demo-card flip-card">
-                            <div class="flip-inner">
-                                <div class="flip-front">
-                                    <strong>3D Flip</strong>
-                                </div>
-                                <div class="flip-back">
-                                    <strong>Achterkant!</strong>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Voorbeeld 4: Kleuren tabel -->
-                <article class="example-box">
-                    <h3>4. CSS Kleuren</h3>
-                    <p>Verschillende manieren om kleuren te definiëren:</p>
-                    <!-- Tabel met voorbeelden van kleurformaten en een live voorbeeldvakje -->
-                    <table class="color-table">
-                        <caption>CSS Color Formats</caption>
-                        <thead>
-                            <tr>
-                                <th>Format</th>
-                                <th>Code</th>
-                                <th>Preview</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Hex</td>
-                                <td><code>#3498db</code></td>
-                                <td><div class="color-preview" style="background: #3498db;"></div></td>
-                            </tr>
-                            <tr>
-                                <td>RGB</td>
-                                <td><code>rgb(52, 152, 219)</code></td>
-                                <td><div class="color-preview" style="background: rgb(52, 152, 219);"></div></td>
-                            </tr>
-                            <tr>
-                                <td>RGBA</td>
-                                <td><code>rgba(52, 152, 219, 0.5)</code></td>
-                                <td><div class="color-preview" style="background: rgba(52, 152, 219, 0.5);"></div></td>
-                            </tr>
-                            <tr>
-                                <td>HSL</td>
-                                <td><code>hsl(204, 70%, 53%)</code></td>
-                                <td><div class="color-preview" style="background: hsl(204, 70%, 53%);"></div></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </article>
+                </div>
             </div>
-        </section>
 
-        <!-- Pro Tips sectie: do's en don'ts -->
-        <section class="tips" id="tips">
-            <div class="container">
-                <h2>Pro Tips & Best Practices</h2>
-                <!-- Grid met "do" en "don't" kaartjes -->
-                <div class="tips-grid">
-                    <article class="tip-card do">
-                        <h3>✅ DO: Gebruik Semantische HTML</h3>
-                        <!-- Voorbeeld hoe je mooie semantische tags gebruikt in plaats van alleen divs -->
-                        <pre><code>&lt;header&gt;
+            <!-- ========== GRID BUILDER ========== -->
+            <div class="playground-panel" id="grid-panel">
+                <div class="playground-card" id="grid-builder">
+                    <h3><span class="emoji">📐</span> CSS Grid Builder</h3>
+                    <p class="playground-description">
+                        CSS Grid is perfect voor 2D layouts. Bouw je eigen grid en experimenteer met kolommen en rijen!
+                    </p>
+
+                    <div class="playground-layout">
+                        <div class="playground-controls">
+                            <div class="control-group">
+                                <label for="grid-cols">Kolommen: <span>3</span></label>
+                                <input type="range" id="grid-cols" min="1" max="6" value="3">
+                            </div>
+                            <div class="control-group">
+                                <label for="grid-rows">Rijen: <span>3</span></label>
+                                <input type="range" id="grid-rows" min="1" max="6" value="3">
+                            </div>
+                            <div class="control-group">
+                                <label for="grid-gap">Gap: <span>10px</span></label>
+                                <input type="range" id="grid-gap" min="0" max="30" value="10">
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview">
+                            <div class="grid-builder-container">
+                                <div class="grid-item">1</div>
+                                <div class="grid-item">2</div>
+                                <div class="grid-item">3</div>
+                                <div class="grid-item">4</div>
+                                <div class="grid-item">5</div>
+                                <div class="grid-item">6</div>
+                                <div class="grid-item">7</div>
+                                <div class="grid-item">8</div>
+                                <div class="grid-item">9</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== COLOR MIXER ========== -->
+            <div class="playground-panel" id="colors-panel">
+                <div class="playground-card" id="color-mixer">
+                    <h3><span class="emoji">🎨</span> Color Mixer Lab</h3>
+                    <p class="playground-description">
+                        Leer hoe RGB kleuren werken! Mix je eigen kleuren en kopieer de code.
+                    </p>
+
+                    <div class="playground-layout">
+                        <div class="playground-controls color-sliders">
+                            <div class="control-group">
+                                <label for="color-r">Red: <span>102</span></label>
+                                <input type="range" id="color-r" min="0" max="255" value="102">
+                            </div>
+                            <div class="control-group">
+                                <label for="color-g">Green: <span>126</span></label>
+                                <input type="range" id="color-g" min="0" max="255" value="126">
+                            </div>
+                            <div class="control-group">
+                                <label for="color-b">Blue: <span>234</span></label>
+                                <input type="range" id="color-b" min="0" max="255" value="234">
+                            </div>
+                            <div class="control-group">
+                                <label for="color-a">Alpha: <span>1</span></label>
+                                <input type="range" id="color-a" min="0" max="1" step="0.1" value="1">
+                            </div>
+
+                            <div class="playground-actions">
+                                <button class="playground-btn primary copy-color-btn">Kopieer Hex</button>
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview dark">
+                            <div class="color-preview-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== TYPOGRAPHY STUDIO ========== -->
+            <div class="playground-panel" id="typography-panel">
+                <div class="playground-card" id="typography-studio">
+                    <h3><span class="emoji">✍️</span> Typography Studio</h3>
+                    <p class="playground-description">
+                        Typography maakt of breekt je design. Experimenteer met fonts, sizes en spacing!
+                    </p>
+
+                    <div class="playground-layout">
+                        <div class="playground-controls">
+                            <div class="control-group">
+                                <label for="typo-text">Tekst:</label>
+                                <input type="text" id="typo-text" value="The quick brown fox jumps over the lazy dog">
+                            </div>
+                            <div class="control-group">
+                                <label for="font-family">Font:</label>
+                                <select id="font-family">
+                                    <option value="system-ui, sans-serif">System UI</option>
+                                    <option value="Georgia, serif">Georgia (Serif)</option>
+                                    <option value="'Courier New', monospace">Courier (Mono)</option>
+                                    <option value="Arial, sans-serif">Arial</option>
+                                    <option value="'Times New Roman', serif">Times New Roman</option>
+                                    <option value="Verdana, sans-serif">Verdana</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="font-size">Font Size: <span>24px</span></label>
+                                <input type="range" id="font-size" min="12" max="72" value="24">
+                            </div>
+                            <div class="control-group">
+                                <label for="font-weight">Font Weight: <span>400</span></label>
+                                <input type="range" id="font-weight" min="100" max="900" step="100" value="400">
+                            </div>
+                            <div class="control-group">
+                                <label for="line-height">Line Height: <span>1.5</span></label>
+                                <input type="range" id="line-height" min="1" max="3" step="0.1" value="1.5">
+                            </div>
+                            <div class="control-group">
+                                <label for="letter-spacing">Letter Spacing: <span>0px</span></label>
+                                <input type="range" id="letter-spacing" min="-5" max="20" value="0">
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview">
+                            <div class="typo-preview">The quick brown fox jumps over the lazy dog</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== ANIMATION CREATOR ========== -->
+            <div class="playground-panel" id="animations-panel">
+                <div class="playground-card" id="animation-creator">
+                    <h3><span class="emoji">🎬</span> Animation Creator</h3>
+                    <p class="playground-description">
+                        Breng je website tot leven met animaties! Kies een type en pas timing aan.
+                    </p>
+
+                    <div class="playground-layout">
+                        <div class="playground-controls">
+                            <div class="control-group">
+                                <label for="anim-type">Animatie Type:</label>
+                                <select id="anim-type">
+                                    <option value="bounce">Bounce</option>
+                                    <option value="pulse">Pulse</option>
+                                    <option value="shake">Shake</option>
+                                    <option value="rotate">Rotate</option>
+                                    <option value="fadeInOut">Fade In/Out</option>
+                                    <option value="slideIn">Slide In</option>
+                                    <option value="swing">Swing</option>
+                                    <option value="rubberBand">Rubber Band</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="anim-duration">Duration: <span>1s</span></label>
+                                <input type="range" id="anim-duration" min="0.1" max="3" step="0.1" value="1">
+                            </div>
+                            <div class="control-group">
+                                <label for="anim-delay">Delay: <span>0s</span></label>
+                                <input type="range" id="anim-delay" min="0" max="2" step="0.1" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label for="anim-timing">Timing Function:</label>
+                                <select id="anim-timing">
+                                    <option value="ease">ease</option>
+                                    <option value="linear">linear</option>
+                                    <option value="ease-in">ease-in</option>
+                                    <option value="ease-out">ease-out</option>
+                                    <option value="ease-in-out">ease-in-out</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="anim-iteration">Herhaling:</label>
+                                <select id="anim-iteration">
+                                    <option value="1">1x</option>
+                                    <option value="2">2x</option>
+                                    <option value="3">3x</option>
+                                    <option value="infinite">Oneindig</option>
+                                </select>
+                            </div>
+
+                            <div class="playground-actions">
+                                <button class="playground-btn primary play-animation-btn">Opnieuw afspelen</button>
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview dark">
+                            <div class="animation-preview-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== TRANSFORM PLAYGROUND ========== -->
+            <div class="playground-panel" id="transforms-panel">
+                <div class="playground-card" id="transform-playground">
+                    <h3><span class="emoji">🔄</span> 3D Transform Playground</h3>
+                    <p class="playground-description">
+                        Manipuleer elementen in 3D ruimte! Rotate, scale, translate en meer.
+                    </p>
+
+                    <div class="playground-layout">
+                        <div class="playground-controls">
+                            <div class="control-group">
+                                <label for="transform-rotateX">Rotate X: <span>0°</span></label>
+                                <input type="range" id="transform-rotateX" min="-180" max="180" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label for="transform-rotateY">Rotate Y: <span>0°</span></label>
+                                <input type="range" id="transform-rotateY" min="-180" max="180" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label for="transform-rotateZ">Rotate Z: <span>0°</span></label>
+                                <input type="range" id="transform-rotateZ" min="-180" max="180" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label for="transform-scale">Scale: <span>1x</span></label>
+                                <input type="range" id="transform-scale" min="0.5" max="2" step="0.1" value="1">
+                            </div>
+                            <div class="control-group">
+                                <label for="transform-translateX">Translate X: <span>0px</span></label>
+                                <input type="range" id="transform-translateX" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label for="transform-translateY">Translate Y: <span>0px</span></label>
+                                <input type="range" id="transform-translateY" min="-100" max="100" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label for="transform-skew">Skew: <span>0°</span></label>
+                                <input type="range" id="transform-skew" min="-45" max="45" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label for="transform-perspective">Perspective: <span>800px</span></label>
+                                <input type="range" id="transform-perspective" min="100" max="2000" value="800">
+                            </div>
+
+                            <div class="playground-actions">
+                                <button class="playground-btn secondary reset-transform-btn">Reset</button>
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview dark">
+                            <div class="transform-preview-wrapper">
+                                <div class="transform-preview-box">3D</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== SHADOW GENERATOR ========== -->
+            <div class="playground-panel" id="shadows-panel">
+                <div class="playground-card" id="shadow-generator">
+                    <h3><span class="emoji">💫</span> Shadow Generator</h3>
+                    <p class="playground-description">
+                        Box shadows voegen diepte toe aan je design. Maak de perfecte schaduw!
+                    </p>
+
+                    <div class="playground-layout">
+                        <div class="playground-controls">
+                            <div class="control-group">
+                                <label for="shadow-h-offset">H-Offset: <span>5px</span></label>
+                                <input type="range" id="shadow-h-offset" min="-50" max="50" value="5">
+                            </div>
+                            <div class="control-group">
+                                <label for="shadow-v-offset">V-Offset: <span>5px</span></label>
+                                <input type="range" id="shadow-v-offset" min="-50" max="50" value="5">
+                            </div>
+                            <div class="control-group">
+                                <label for="shadow-blur">Blur: <span>15px</span></label>
+                                <input type="range" id="shadow-blur" min="0" max="100" value="15">
+                            </div>
+                            <div class="control-group">
+                                <label for="shadow-spread">Spread: <span>0px</span></label>
+                                <input type="range" id="shadow-spread" min="-20" max="50" value="0">
+                            </div>
+                            <div class="control-group">
+                                <label for="shadow-color">Kleur:</label>
+                                <input type="color" id="shadow-color" value="#667eea">
+                            </div>
+                            <div class="control-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="shadow-inset">
+                                    Inset Shadow
+                                </label>
+                            </div>
+
+                            <div class="playground-actions">
+                                <button class="playground-btn primary copy-shadow-btn">Kopieer CSS</button>
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview dark">
+                            <div class="shadow-preview-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== GRADIENT GENERATOR ========== -->
+            <div class="playground-panel" id="gradients-panel">
+                <div class="playground-card" id="gradient-generator">
+                    <h3><span class="emoji">🌈</span> Gradient Generator</h3>
+                    <p class="playground-description">
+                        Maak prachtige gradients voor je achtergronden en elementen!
+                    </p>
+
+                    <div class="playground-layout">
+                        <div class="playground-controls">
+                            <div class="control-group">
+                                <label for="gradient-type">Type:</label>
+                                <select id="gradient-type">
+                                    <option value="linear">Linear</option>
+                                    <option value="radial">Radial</option>
+                                    <option value="conic">Conic</option>
+                                </select>
+                            </div>
+                            <div class="control-group">
+                                <label for="gradient-angle">Hoek: <span>135°</span></label>
+                                <input type="range" id="gradient-angle" min="0" max="360" value="135">
+                            </div>
+                            <div class="control-group">
+                                <label>Kleur 1:</label>
+                                <input type="color" id="gradient-color1" value="#667eea">
+                            </div>
+                            <div class="control-group">
+                                <label>Kleur 2:</label>
+                                <input type="color" id="gradient-color2" value="#764ba2">
+                            </div>
+                            <div class="control-group">
+                                <label>Kleur 3 (optioneel):</label>
+                                <input type="color" id="gradient-color3" value="#f093fb">
+                            </div>
+
+                            <div class="playground-actions">
+                                <button class="playground-btn primary copy-gradient-btn">Kopieer CSS</button>
+                            </div>
+
+                            <div class="code-output">
+                                <code></code>
+                            </div>
+                        </div>
+
+                        <div class="playground-preview">
+                            <div class="gradient-preview-box"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== CSS SELECTOR GAME ========== -->
+            <div class="playground-panel" id="game-panel">
+                <div class="playground-card" id="selector-game">
+                    <h3><span class="emoji">🎯</span> CSS Selector Game</h3>
+                    <p class="playground-description">
+                        Test je CSS selector kennis! Schrijf de juiste selector om het element te selecteren.
+                    </p>
+
+                    <div class="game-stats">
+                        <span class="game-level">Level 1/8</span>
+                        <span class="game-score">Score: 0</span>
+                    </div>
+
+                    <div class="game-container">
+                        <div>
+                            <h4>HTML Code:</h4>
+                            <pre class="game-html-display"></pre>
+                        </div>
+                        <div>
+                            <h4>Preview:</h4>
+                            <div class="game-preview"></div>
+                        </div>
+                    </div>
+
+                    <p class="game-hint"></p>
+
+                    <div class="game-input-area">
+                        <input type="text" id="selector-input" placeholder="Typ je CSS selector...">
+                        <button class="playground-btn primary check-selector-btn">Check</button>
+                    </div>
+
+                    <div class="game-feedback"></div>
+
+                    <button class="playground-btn secondary next-level-btn" style="display: none;">Volgende Level</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Tab Switching Script -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.playground-tab');
+        const panels = document.querySelectorAll('.playground-panel');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remove active from all
+                tabs.forEach(t => t.classList.remove('active'));
+                panels.forEach(p => p.classList.remove('active'));
+
+                // Add active to clicked
+                tab.classList.add('active');
+                const panelId = tab.dataset.tab + '-panel';
+                document.getElementById(panelId)?.classList.add('active');
+            });
+        });
+    });
+    </script>
+
+    <!-- Pro Tips sectie -->
+    <section class="tips" id="tips">
+        <div class="container">
+            <h2>Pro Tips & Best Practices</h2>
+            <div class="tips-grid">
+                <article class="tip-card do">
+                    <h3>✅ DO: Gebruik Semantische HTML</h3>
+                    <pre><code>&lt;header&gt;
   &lt;nav&gt;...&lt;/nav&gt;
 &lt;/header&gt;
 &lt;main&gt;
   &lt;article&gt;...&lt;/article&gt;
 &lt;/main&gt;</code></pre>
-                        <p><strong>Waarom?</strong> Betere SEO en accessibility!</p>
-                    </article>
+                    <p><strong>Waarom?</strong> Betere SEO en accessibility!</p>
+                </article>
 
-                    <article class="tip-card dont">
-                        <h3>❌ DON'T: Div Soup</h3>
-                        <!-- Hier laat ik zien hoe het niet moet: alles met divs -->
-                        <pre><code>&lt;div class="header"&gt;
+                <article class="tip-card dont">
+                    <h3>❌ DON'T: Div Soup</h3>
+                    <pre><code>&lt;div class="header"&gt;
   &lt;div class="nav"&gt;...&lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="main"&gt;...&lt;/div&gt;</code></pre>
-                        <p><strong>Waarom niet?</strong> Geen semantische betekenis!</p>
-                    </article>
+                    <p><strong>Waarom niet?</strong> Geen semantische betekenis!</p>
+                </article>
 
-                    <article class="tip-card do">
-                        <h3>✅ DO: CSS Variables</h3>
-                        <!-- Voorbeeld hoe je CSS variabelen gebruikt zodat je kleuren op één plek beheert -->
-                        <pre><code>:root {
+                <article class="tip-card do">
+                    <h3>✅ DO: CSS Variables</h3>
+                    <pre><code>:root {
   --primary: #3498db;
 }
 .button {
   background: var(--primary);
 }</code></pre>
-                        <p><strong>Waarom?</strong> Makkelijk aanpasbaar!</p>
-                    </article>
+                    <p><strong>Waarom?</strong> Makkelijk aanpasbaar!</p>
+                </article>
 
-                    <article class="tip-card dont">
-                        <h3>❌ DON'T: Te veel !important</h3>
-                        <!-- Voorbeeld van hoe het rommelig wordt als je overal !important gooit -->
-                        <pre><code>.text {
+                <article class="tip-card dont">
+                    <h3>❌ DON'T: Te veel !important</h3>
+                    <pre><code>.text {
   color: red !important;
   font-size: 16px !important;
 }</code></pre>
-                        <p><strong>Waarom niet?</strong> Moeilijk te overschrijven!</p>
-                    </article>
-                </div>
-
-                <!-- Grappige sectie met oude/verboden HTML tags -->
-                <article class="hall-of-shame">
-                    <h3>🏛️ Deprecated HTML Hall of Shame</h3>
-                    <p>Deze tags waren cool in de jaren '90, maar gebruik ze <del>nooit</del> meer:</p>
-                    <div class="deprecated-grid">
-                        <!-- Voor elke oude tag geef ik een alternatief in CSS -->
-                        <div class="deprecated-tag">
-                            <code>&lt;marquee&gt;</code>
-                            <p class="marquee-demo">Scrollende text!</p>
-                            <small>Gebruik CSS animations</small>
-                        </div>
-                        <div class="deprecated-tag">
-                            <code>&lt;blink&gt;</code>
-                            <p class="blink-demo">Knipperende text!</p>
-                            <small>Gebruik CSS animations</small>
-                        </div>
-                        <div class="deprecated-tag">
-                            <code>&lt;center&gt;</code>
-                            <p><ins>Gecentreerd</ins></p>
-                            <small>Gebruik CSS text-align</small>
-                        </div>
-                        <div class="deprecated-tag">
-                            <code>&lt;font&gt;</code>
-                            <p>Comic Sans Era</p>
-                            <small>Gebruik CSS font-family</small>
-                        </div>
-                    </div>
+                    <p><strong>Waarom niet?</strong> Moeilijk te overschrijven!</p>
                 </article>
             </div>
-        </section>
 
-        <!-- Featured Courses Section -->
-        <section class="featured-courses" id="cursussen">
-            <div class="container">
-                <h2>Populaire Cursussen</h2>
-                <p class="section-intro">
-                    Begin vandaag nog met leren! Bekijk onze nieuwste cursussen.
-                </p>
-
-                {% if featured_courses %}
-                <div class="featured-grid">
-                    {% for course in featured_courses %}
-                    <article class="featured-card">
-                        <div class="featured-card-header">
-                            <h3>{{ course.title }}</h3>
-                        </div>
-                        <div class="featured-card-body">
-                            <p>{{ course.description[:120] }}{% if course.description|length > 120 %}...{% endif %}</p>
-                        </div>
-                        <div class="featured-card-footer">
-                            <a href="{{ url_for('course_catalog') }}" class="featured-link">Bekijk cursus &rarr;</a>
-                        </div>
-                    </article>
-                    {% endfor %}
+            <article class="hall-of-shame">
+                <h3>🏛️ Deprecated HTML Hall of Shame</h3>
+                <p>Deze tags waren cool in de jaren '90, maar gebruik ze <del>nooit</del> meer:</p>
+                <div class="deprecated-grid">
+                    <div class="deprecated-tag">
+                        <code>&lt;marquee&gt;</code>
+                        <p class="marquee-demo">Scrollende text!</p>
+                        <small>Gebruik CSS animations</small>
+                    </div>
+                    <div class="deprecated-tag">
+                        <code>&lt;blink&gt;</code>
+                        <p class="blink-demo">Knipperende text!</p>
+                        <small>Gebruik CSS animations</small>
+                    </div>
+                    <div class="deprecated-tag">
+                        <code>&lt;center&gt;</code>
+                        <p><ins>Gecentreerd</ins></p>
+                        <small>Gebruik CSS text-align</small>
+                    </div>
+                    <div class="deprecated-tag">
+                        <code>&lt;font&gt;</code>
+                        <p>Comic Sans Era</p>
+                        <small>Gebruik CSS font-family</small>
+                    </div>
                 </div>
-                <div class="featured-cta">
-                    <a href="{{ url_for('course_catalog') }}" class="cta-button primary">Bekijk Alle Cursussen</a>
+            </article>
+        </div>
+    </section>
+
+    <!-- Featured Courses Section -->
+    <section class="featured-courses" id="cursussen">
+        <div class="container">
+            <h2>Populaire Cursussen</h2>
+            <p class="section-intro">
+                Begin vandaag nog met leren! Bekijk onze nieuwste cursussen.
+            </p>
+
+            {% if featured_courses %}
+            <div class="featured-grid">
+                {% for course in featured_courses %}
+                <article class="featured-card">
+                    <div class="featured-card-header">
+                        <h3>{{ course.title }}</h3>
+                    </div>
+                    <div class="featured-card-body">
+                        <p>{{ course.description[:120] }}{% if course.description|length > 120 %}...{% endif %}</p>
+                    </div>
+                    <div class="featured-card-footer">
+                        <a href="{{ url_for('course_catalog') }}" class="featured-link">Bekijk cursus &rarr;</a>
+                    </div>
+                </article>
+                {% endfor %}
+            </div>
+            <div class="featured-cta">
+                <a href="{{ url_for('course_catalog') }}" class="cta-button primary">Bekijk Alle Cursussen</a>
+            </div>
+            {% else %}
+            <p style="text-align: center;">Er zijn nog geen cursussen beschikbaar.</p>
+            {% endif %}
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section" id="contact">
+        <div class="container">
+            <h2>Klaar om te beginnen?</h2>
+            <p class="section-intro">
+                Sluit je aan bij <strong>CodeCraft</strong> en start vandaag nog met het leren van webdevelopment!
+            </p>
+
+            <div class="cta-box">
+                {% if logged_in %}
+                <p class="cta-welcome">Welkom terug, <strong>{{ user_name }}</strong>!</p>
+                <div class="cta-buttons">
+                    <a href="{{ url_for('dashboard') }}" class="cta-button primary">Ga naar Dashboard</a>
+                    <a href="{{ url_for('course_catalog') }}" class="cta-button secondary">Bekijk Cursussen</a>
                 </div>
                 {% else %}
-                <p style="text-align: center;">Er zijn nog geen cursussen beschikbaar.</p>
+                <div class="cta-buttons">
+                    <a href="{{ url_for('register_page') }}" class="cta-button primary">Maak een Account</a>
+                    <a href="{{ url_for('course_catalog') }}" class="cta-button secondary">Bekijk Cursussen</a>
+                </div>
+                <p class="cta-login">Heb je al een account? <a href="{{ url_for('login_page') }}">Log hier in</a></p>
                 {% endif %}
             </div>
-        </section>
+        </div>
+    </section>
+{% endblock %}
 
-        <!-- Call to Action Section -->
-        <section class="cta-section" id="contact">
-            <div class="container">
-                <h2>Klaar om te beginnen?</h2>
-                <p class="section-intro">
-                    Sluit je aan bij <strong>CodeCraft</strong> en start vandaag nog met het leren van webdevelopment!
-                </p>
-
-                <div class="cta-box">
-                    {% if logged_in %}
-                    <p class="cta-welcome">Welkom terug, <strong>{{ user_name }}</strong>!</p>
-                    <div class="cta-buttons">
-                        <a href="{{ url_for('dashboard') }}" class="cta-button primary">Ga naar Dashboard</a>
-                        <a href="{{ url_for('course_catalog') }}" class="cta-button secondary">Bekijk Cursussen</a>
-                    </div>
-                    {% else %}
-                    <div class="cta-buttons">
-                        <a href="{{ url_for('register_page') }}" class="cta-button primary">Maak een Account</a>
-                        <a href="{{ url_for('course_catalog') }}" class="cta-button secondary">Bekijk Cursussen</a>
-                    </div>
-                    <p class="cta-login">Heb je al een account? <a href="{{ url_for('login_page') }}">Log hier in</a></p>
-                    {% endif %}
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer onderaan de pagina -->
+{% block footer %}
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <!-- Linker blokje in de footer met een kleine Easter egg -->
                 <div class="footer-section">
                     <h3>&lt;CodeCraft/&gt;</h3>
                     <p>
@@ -423,14 +768,12 @@
                     </p>
                     <p class="easter-egg">
                         <small>
-                            <!-- Kleine tip voor developers in wording: zo open je DevTools -->
                             💡 <strong>Pro tip:</strong> Druk op <kbd>F12</kbd> of
                             <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>I</kbd> om DevTools te openen!
                         </small>
                     </p>
                 </div>
 
-                <!-- Snelkoppelingen naar de secties op de pagina -->
                 <div class="footer-section">
                     <h4>Links</h4>
                     <ul>
@@ -445,7 +788,6 @@
                     </ul>
                 </div>
 
-                <!-- Externe resources voor wie verder wil leren -->
                 <div class="footer-section">
                     <h4>Resources</h4>
                     <ul>
@@ -455,7 +797,6 @@
                     </ul>
                 </div>
 
-                <!-- Contactgegevens / "nep" adres -->
                 <div class="footer-section">
                     <h4>Contact</h4>
                     <address>
@@ -463,7 +804,6 @@
                         <a href="mailto:info@codecraft.nl">info@codecraft.nl</a>
                     </address>
                     <p style="margin-top: 1rem;">
-                        <!-- Klein grapje over dat er bijna geen JS in zit -->
                         <strong>Fun fact:</strong> Deze site gebruikt <sub>bijna</sub>
                         geen JavaScript! <sup>*</sup>
                     </p>
@@ -473,7 +813,6 @@
 
             <hr>
 
-            <!-- Onderste balk met jaartal en gebruikte tech -->
             <div class="footer-bottom">
                 <p>&copy; <time datetime="2024">2024</time> CodeCraft. WebTech Project.</p>
                 <p class="tech-stack">
@@ -485,13 +824,4 @@
             </div>
         </div>
     </footer>
-
-    <!--
-        ════════════════════════════════════════
-        Je hebt het einde bereikt! 
-        Pro tip: Check ook de CSS file!
-        Hier staat namelijk alle styling en animaties ingesteld.
-        ════════════════════════════════════════
-    -->
-</body>
-</html>
+{% endblock %}

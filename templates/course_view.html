@@ -1,100 +1,54 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CodeCraft - {{ course.title }}">
-    <title>{{ course.title }} - CodeCraft</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <!-- Navigatiebalk -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="logo">
-                <span class="logo-bracket">&lt;</span>
-                <strong>Code</strong>Craft
-                <span class="logo-bracket">/&gt;</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
-                {% if logged_in %}
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    {% if is_admin %}
-                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
-                    <li class="nav-user">
-                        <span class="user-greeting">Hallo, {{ user_name }}</span>
-                    </li>
-                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
-                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
-                {% endif %}
-            </ul>
+{% extends "base.html" %}
+
+{% block title %}{{ course.title }} - CodeCraft{% endblock %}
+{% block description %}CodeCraft - {{ course.title }}{% endblock %}
+
+{% block content %}
+<section class="course-view-section">
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="course-view-header">
+            <a href="{{ url_for('my_courses') }}" class="back-link">&larr; Terug naar Mijn Cursussen</a>
+            <span class="enrolled-badge">Ingeschreven</span>
         </div>
-    </nav>
 
-    <!-- Main Content -->
-    <main>
-        <section class="course-view-section">
-            <div class="container">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
+        <div class="course-view-card">
+            <div class="course-view-title">
+                <h1>{{ course.title }}</h1>
+                <small>Ingeschreven op {{ course.enrolled_at[:10] }}</small>
+            </div>
 
-                <div class="course-view-header">
-                    <a href="{{ url_for('my_courses') }}" class="back-link">&larr; Terug naar Mijn Cursussen</a>
-                    <span class="enrolled-badge">Ingeschreven</span>
+            <div class="course-view-content">
+                <h2>Over deze cursus</h2>
+                <p>{{ course.description }}</p>
+            </div>
+
+            <div class="course-view-info">
+                <div class="info-item">
+                    <span class="info-icon">📅</span>
+                    <span class="info-text">Aangemaakt: {{ course.created_at[:10] }}</span>
                 </div>
-
-                <div class="course-view-card">
-                    <div class="course-view-title">
-                        <h1>{{ course.title }}</h1>
-                        <small>Ingeschreven op {{ course.enrolled_at[:10] }}</small>
-                    </div>
-
-                    <div class="course-view-content">
-                        <h2>Over deze cursus</h2>
-                        <p>{{ course.description }}</p>
-                    </div>
-
-                    <div class="course-view-info">
-                        <div class="info-item">
-                            <span class="info-icon">📅</span>
-                            <span class="info-text">Aangemaakt: {{ course.created_at[:10] }}</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-icon">✅</span>
-                            <span class="info-text">Status: Ingeschreven</span>
-                        </div>
-                    </div>
-
-                    <div class="course-view-placeholder">
-                        <div class="placeholder-content">
-                            <span class="placeholder-icon">🚧</span>
-                            <h3>Cursusinhoud Komt Binnenkort</h3>
-                            <p>We werken hard aan het toevoegen van lessen, opdrachten en materialen voor deze cursus. Kom binnenkort terug!</p>
-                        </div>
-                    </div>
+                <div class="info-item">
+                    <span class="info-icon">✅</span>
+                    <span class="info-text">Status: Ingeschreven</span>
                 </div>
             </div>
-        </section>
-    </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 CodeCraft. WebTech Project.</p>
+            <div class="course-view-placeholder">
+                <div class="placeholder-content">
+                    <span class="placeholder-icon">🚧</span>
+                    <h3>Cursusinhoud Komt Binnenkort</h3>
+                    <p>We werken hard aan het toevoegen van lessen, opdrachten en materialen voor deze cursus. Kom binnenkort terug!</p>
+                </div>
             </div>
         </div>
-    </footer>
-</body>
-</html>
+    </div>
+</section>
+{% endblock %}

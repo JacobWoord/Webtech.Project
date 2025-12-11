@@ -1,108 +1,62 @@
-<!DOCTYPE html>
-<html lang="nl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="CodeCraft - Inschrijvingen Beheer">
-    <title>Inschrijvingen Beheer - CodeCraft</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <!-- Navigatiebalk -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <a href="{{ url_for('index') }}" class="logo">
-                <span class="logo-bracket">&lt;</span>
-                <strong>Code</strong>Craft
-                <span class="logo-bracket">/&gt;</span>
-            </a>
-            <ul class="nav-menu">
-                <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
-                {% if logged_in %}
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    {% if is_admin %}
-                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
-                    <li class="nav-user">
-                        <span class="user-greeting">Hallo, {{ user_name }}</span>
-                    </li>
-                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
-                {% else %}
-                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
-                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
-                {% endif %}
-            </ul>
+{% extends "base.html" %}
+
+{% block title %}Inschrijvingen Beheer - CodeCraft{% endblock %}
+{% block description %}CodeCraft - Inschrijvingen Beheer{% endblock %}
+
+{% block content %}
+<section class="contact" id="admin-enrollments">
+    <div class="container">
+        <div class="admin-header">
+            <h2>Inschrijvingen Beheer</h2>
+            <a href="{{ url_for('list_courses') }}" class="btn-action btn-back">&larr; Terug naar Cursussen</a>
         </div>
-    </nav>
+        <p class="section-intro">
+            Bekijk alle cursusinschrijvingen van alle gebruikers.
+        </p>
 
-    <!-- Main Content -->
-    <main>
-        <section class="contact" id="admin-enrollments">
-            <div class="container">
-                <div class="admin-header">
-                    <h2>Inschrijvingen Beheer</h2>
-                    <a href="{{ url_for('list_courses') }}" class="btn-action btn-back">&larr; Terug naar Cursussen</a>
-                </div>
-                <p class="section-intro">
-                    Bekijk alle cursusinschrijvingen van alle gebruikers.
-                </p>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-
-                {% if enrollments %}
-                <div class="admin-table-wrapper">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Gebruiker</th>
-                                <th>E-mail</th>
-                                <th>Cursus</th>
-                                <th>Ingeschreven op</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for enrollment in enrollments %}
-                            <tr>
-                                <td>{{ enrollment.id }}</td>
-                                <td><strong>{{ enrollment.user_name }}</strong></td>
-                                <td>{{ enrollment.user_email }}</td>
-                                <td>
-                                    <a href="{{ url_for('view_course', id=enrollment.course_id) }}" class="table-link">
-                                        {{ enrollment.course_title }}
-                                    </a>
-                                </td>
-                                <td>{{ enrollment.enrolled_at[:16] }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-                {% else %}
-                <div class="empty-state">
-                    <p>Er zijn nog geen inschrijvingen.</p>
-                    <p>Zodra gebruikers zich inschrijven voor cursussen, verschijnen ze hier.</p>
-                </div>
-                {% endif %}
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-bottom">
-                <p>&copy; 2024 CodeCraft. WebTech Project.</p>
-            </div>
+        {% if enrollments %}
+        <div class="admin-table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Gebruiker</th>
+                        <th>E-mail</th>
+                        <th>Cursus</th>
+                        <th>Ingeschreven op</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for enrollment in enrollments %}
+                    <tr>
+                        <td>{{ enrollment.id }}</td>
+                        <td><strong>{{ enrollment.user_name }}</strong></td>
+                        <td>{{ enrollment.user_email }}</td>
+                        <td>
+                            <a href="{{ url_for('view_course', id=enrollment.course_id) }}" class="table-link">
+                                {{ enrollment.course_title }}
+                            </a>
+                        </td>
+                        <td>{{ enrollment.enrolled_at[:16] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </footer>
-</body>
-</html>
+        {% else %}
+        <div class="empty-state">
+            <p>Er zijn nog geen inschrijvingen.</p>
+            <p>Zodra gebruikers zich inschrijven voor cursussen, verschijnen ze hier.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

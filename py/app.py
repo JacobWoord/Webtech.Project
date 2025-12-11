@@ -72,7 +72,7 @@ def create_dummy_data():
 # Home page
 @app.route('/')
 def index():
-    # Fetch latest 3 courses for featured section
+    # Fetch latest 3 courses for featured section, this secttion returs the course data withing the home page.
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute('SELECT * FROM courses ORDER BY id DESC LIMIT 3')
