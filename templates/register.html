@@ -18,8 +18,21 @@
             </a>
             <ul class="nav-menu">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('login') }}">Inloggen</a></li>
-                <li><a href="{{ url_for('register') }}">Registreren</a></li>
+                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
+                {% if logged_in %}
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    {% if is_admin %}
+                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
+                    <li class="nav-user">
+                        <span class="user-greeting">Hallo, {{ user_name }}</span>
+                    </li>
+                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
+                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>

@@ -39,27 +39,49 @@
 
     <!-- Main Content -->
     <main>
-        <section class="contact" id="course-detail">
+        <section class="course-view-section">
             <div class="container">
-                <h2>{{ course.title }}</h2>
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
 
-                <div class="course-detail-card">
-                    <div class="course-meta">
-                        <p><strong>Cursus ID:</strong> {{ course.id }}</p>
-                        <p><strong>Aangemaakt:</strong> {{ course['created_at'] }}</p>
+                <div class="course-view-header">
+                    <a href="{{ url_for('my_courses') }}" class="back-link">&larr; Terug naar Mijn Cursussen</a>
+                    <span class="enrolled-badge">Ingeschreven</span>
+                </div>
+
+                <div class="course-view-card">
+                    <div class="course-view-title">
+                        <h1>{{ course.title }}</h1>
+                        <small>Ingeschreven op {{ course.enrolled_at[:10] }}</small>
                     </div>
 
-                    <div class="course-description">
-                        <h3>Beschrijving</h3>
+                    <div class="course-view-content">
+                        <h2>Over deze cursus</h2>
                         <p>{{ course.description }}</p>
                     </div>
 
-                    <div class="course-detail-actions">
-                        <a href="{{ url_for('list_courses') }}" class="btn-action btn-back">&larr; Terug naar overzicht</a>
-                        <a href="{{ url_for('edit_course', id=course.id) }}" class="btn-action btn-edit">Bewerken</a>
-                        <form action="{{ url_for('delete_course', id=course.id) }}" method="POST" style="display: inline;">
-                            <button type="submit" class="btn-action btn-delete" onclick="return confirm('Weet je zeker dat je deze cursus wilt verwijderen?')">Verwijderen</button>
-                        </form>
+                    <div class="course-view-info">
+                        <div class="info-item">
+                            <span class="info-icon">📅</span>
+                            <span class="info-text">Aangemaakt: {{ course.created_at[:10] }}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-icon">✅</span>
+                            <span class="info-text">Status: Ingeschreven</span>
+                        </div>
+                    </div>
+
+                    <div class="course-view-placeholder">
+                        <div class="placeholder-content">
+                            <span class="placeholder-icon">🚧</span>
+                            <h3>Cursusinhoud Komt Binnenkort</h3>
+                            <p>We werken hard aan het toevoegen van lessen, opdrachten en materialen voor deze cursus. Kom binnenkort terug!</p>
+                        </div>
                     </div>
                 </div>
             </div>

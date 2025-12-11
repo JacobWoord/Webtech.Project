@@ -35,12 +35,22 @@
             <!-- Simpele navigatie lijst met ankerlinks naar de secties op deze pagina -->
             <ul class="nav-menu">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#over">Over</a></li>
-                <li><a href="#voorbeelden">Voorbeelden</a></li>
                 <li><a href="#tips">Tips</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
-                <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
+                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
+                {% if logged_in %}
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    {% if is_admin %}
+                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
+                    <li class="nav-user">
+                        <span class="user-greeting">Hallo, {{ user_name }}</span>
+                    </li>
+                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
+                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
+                {% endif %}
             </ul>
         </div>
     </nav>
@@ -341,108 +351,62 @@
             </div>
         </section>
 
-        <!-- Contact / inschrijf sectie -->
-        <section class="contact" id="contact">
+        <!-- Featured Courses Section -->
+        <section class="featured-courses" id="cursussen">
             <div class="container">
-                <h2>Schrijf je in!</h2>
-                <!-- Hier leg ik uit wat je krijgt als je je inschrijft -->
+                <h2>Populaire Cursussen</h2>
                 <p class="section-intro">
-                    Ontvang wekelijkse <strong>HTML & CSS tips</strong> en blijf up-to-date met
-                    de laatste web development trends voor <time datetime="2024">2024</time>!
+                    Begin vandaag nog met leren! Bekijk onze nieuwste cursussen.
                 </p>
-                <!-- Simpel inschrijfformulier (fake, action="#" is geen echte back-end) -->
-                <form class="contact-form" action="#" method="post">
-                    <!-- Fieldset om form velden te groeperen (beter voor structuur en accessibility) -->
-                    <fieldset>
-                        <legend>Persoonlijke Gegevens</legend>
 
-                        <div class="form-group">
-                            <label for="name">Naam:</label>
-                            <!-- required zorgt ervoor dat je dit veld niet leeg mag laten -->
-                            <input type="text" id="name" name="name" required
-                                   placeholder="Je volledige naam">
+                {% if featured_courses %}
+                <div class="featured-grid">
+                    {% for course in featured_courses %}
+                    <article class="featured-card">
+                        <div class="featured-card-header">
+                            <h3>{{ course.title }}</h3>
                         </div>
-
-                        <div class="form-group">
-                            <label for="email">E-mail:</label>
-                            <!-- type="email" zorgt voor simpele validatie in de browser -->
-                            <input type="email" id="email" name="email" required
-                                   placeholder="jouw@email.nl">
+                        <div class="featured-card-body">
+                            <p>{{ course.description[:120] }}{% if course.description|length > 120 %}...{% endif %}</p>
                         </div>
-
-                        <div class="form-group">
-                            <label for="level">Niveau:</label>
-                            <!-- Dropdown om je level te kiezen -->
-                            <select id="level" name="level" required>
-                                <option value="">Selecteer je niveau...</option>
-                                <option value="beginner">🌱 Beginner</option>
-                                <option value="intermediate">🚀 Intermediate</option>
-                                <option value="advanced">⚡ Advanced</option>
-                            </select>
+                        <div class="featured-card-footer">
+                            <a href="{{ url_for('course_catalog') }}" class="featured-link">Bekijk cursus &rarr;</a>
                         </div>
-                    </fieldset>
+                    </article>
+                    {% endfor %}
+                </div>
+                <div class="featured-cta">
+                    <a href="{{ url_for('course_catalog') }}" class="cta-button primary">Bekijk Alle Cursussen</a>
+                </div>
+                {% else %}
+                <p style="text-align: center;">Er zijn nog geen cursussen beschikbaar.</p>
+                {% endif %}
+            </div>
+        </section>
 
-                    <fieldset>
-                        <legend>Interesses</legend>
+        <!-- Call to Action Section -->
+        <section class="cta-section" id="contact">
+            <div class="container">
+                <h2>Klaar om te beginnen?</h2>
+                <p class="section-intro">
+                    Sluit je aan bij <strong>CodeCraft</strong> en start vandaag nog met het leren van webdevelopment!
+                </p>
 
-                        <!-- Checkboxen: je kunt meerdere interesses tegelijk aanvinken -->
-                        <div class="checkbox-group">
-                            <label>
-                                <input type="checkbox" name="interest" value="html">
-                                HTML
-                            </label>
-                            <label>
-                                <input type="checkbox" name="interest" value="css">
-                                CSS
-                            </label>
-                            <label>
-                                <input type="checkbox" name="interest" value="responsive">
-                                Responsive Design
-                            </label>
-                        </div>
-                    </fieldset>
-
-                    <fieldset>
-                        <legend>Hoe wil je leren?</legend>
-
-                        <!-- Radio buttons: je kunt maar één leer-methode tegelijk kiezen -->
-                        <div class="radio-group">
-                            <label>
-                                <input type="radio" name="method" value="video" required>
-                                Video tutorials
-                            </label>
-                            <label>
-                                <input type="radio" name="method" value="text">
-                                Geschreven artikelen
-                            </label>
-                            <label>
-                                <input type="radio" name="method" value="interactive">
-                                Interactieve oefeningen
-                            </label>
-                        </div>
-                    </fieldset>
-
-                    <div class="form-group">
-                        <label for="message">Bericht <small>(optioneel)</small>:</label>
-                        <!-- Tekstvak voor extra opmerkingen / vragen -->
-                        <textarea id="message" name="message" rows="4"
-                                  placeholder="Heb je vragen of opmerkingen?"></textarea>
+                <div class="cta-box">
+                    {% if logged_in %}
+                    <p class="cta-welcome">Welkom terug, <strong>{{ user_name }}</strong>!</p>
+                    <div class="cta-buttons">
+                        <a href="{{ url_for('dashboard') }}" class="cta-button primary">Ga naar Dashboard</a>
+                        <a href="{{ url_for('course_catalog') }}" class="cta-button secondary">Bekijk Cursussen</a>
                     </div>
-
-                    <div class="form-group">
-                        <!-- Grappige checkbox over !important, maar ook meteen een "akkoord" soort optie -->
-                        <label class="checkbox-label">
-                            <input type="checkbox" name="terms" required>
-                            Ik snap dat <code>!important</code> geen oplossing is 😄
-                        </label>
+                    {% else %}
+                    <div class="cta-buttons">
+                        <a href="{{ url_for('register_page') }}" class="cta-button primary">Maak een Account</a>
+                        <a href="{{ url_for('course_catalog') }}" class="cta-button secondary">Bekijk Cursussen</a>
                     </div>
-
-                    <!-- Submit knop om het formulier te versturen -->
-                    <button type="submit" class="submit-button">
-                        <span>Inschrijven</span>
-                        <span class="button-arrow">→</span>
-                    </button>
-                </form>
+                    <p class="cta-login">Heb je al een account? <a href="{{ url_for('login_page') }}">Log hier in</a></p>
+                    {% endif %}
+                </div>
             </div>
         </section>
     </main>
@@ -470,9 +434,14 @@
                 <div class="footer-section">
                     <h4>Links</h4>
                     <ul>
-                        <li><a href="#voorbeelden">Voorbeelden</a></li>
-                        <li><a href="#tips">Tips</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
+                        {% if logged_in %}
+                        <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                        <li><a href="{{ url_for('profile') }}">Mijn Profiel</a></li>
+                        {% else %}
+                        <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
+                        <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
+                        {% endif %}
                     </ul>
                 </div>
 

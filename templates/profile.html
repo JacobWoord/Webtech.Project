@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CodeCraft - Mijn Profiel">
+    <title>Mijn Profiel - CodeCraft</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <!-- Navigatiebalk -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="{{ url_for('index') }}" class="logo">
+                <span class="logo-bracket">&lt;</span>
+                <strong>Code</strong>Craft
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('course_catalog') }}">Cursussen</a></li>
+                {% if logged_in %}
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    {% if is_admin %}
+                    <li><a href="{{ url_for('list_courses') }}" class="nav-admin">Beheer</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('my_courses') }}">Mijn Cursussen</a></li>
+                    <li class="nav-user">
+                        <span class="user-greeting">Hallo, {{ user_name }}</span>
+                    </li>
+                    <li><a href="{{ url_for('logout_route') }}" class="nav-logout">Uitloggen</a></li>
+                {% else %}
+                    <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
+                    <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <section class="contact" id="profile">
+            <div class="container">
+                <h2>Mijn Profiel</h2>
+                <p class="section-intro">
+                    Bekijk en bewerk je accountgegevens.
+                </p>
+
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+
+                <div class="profile-container">
+                    <!-- Profile Info Card -->
+                    <div class="profile-card">
+                        <div class="profile-header">
+                            <div class="profile-avatar">
+                                {{ user.name[0] | upper }}
+                            </div>
+                            <div class="profile-info">
+                                <h3>{{ user.name }}</h3>
+                                <p>{{ user.email }}</p>
+                                {% if user.is_admin %}
+                                <span class="admin-badge">Administrator</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="profile-stats">
+                            <div class="profile-stat">
+                                <span class="stat-value">{{ enrollment_count }}</span>
+                                <span class="stat-label">Cursussen</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="stat-value">{{ user.level | capitalize if user.level else 'Niet ingesteld' }}</span>
+                                <span class="stat-label">Niveau</span>
+                            </div>
+                            <div class="profile-stat">
+                                <span class="stat-value">{{ user.created_at[:10] if user.created_at else 'Onbekend' }}</span>
+                                <span class="stat-label">Lid sinds</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Edit Profile Form -->
+                    <form class="contact-form profile-form" method="POST">
+                        <fieldset>
+                            <legend>Profiel Bewerken</legend>
+
+                            <div class="form-group">
+                                <label for="name">Naam:</label>
+                                <input type="text" id="name" name="name" required
+                                       value="{{ user.name }}"
+                                       placeholder="Je volledige naam">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="email">E-mail:</label>
+                                <input type="email" id="email" name="email" disabled
+                                       value="{{ user.email }}"
+                                       title="E-mail kan niet worden gewijzigd">
+                                <small class="form-hint">E-mailadres kan niet worden gewijzigd.</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="level">Ervaring niveau:</label>
+                                <select id="level" name="level">
+                                    <option value="">Selecteer je niveau...</option>
+                                    <option value="beginner" {% if user.level == 'beginner' %}selected{% endif %}>Beginner</option>
+                                    <option value="intermediate" {% if user.level == 'intermediate' %}selected{% endif %}>Intermediate</option>
+                                    <option value="advanced" {% if user.level == 'advanced' %}selected{% endif %}>Advanced</option>
+                                </select>
+                            </div>
+                        </fieldset>
+
+                        <div class="form-actions-row">
+                            <button type="submit" class="submit-button">
+                                <span>Opslaan</span>
+                                <span class="button-arrow">&rarr;</span>
+                            </button>
+                            <a href="{{ url_for('dashboard') }}" class="btn-cancel">Terug naar Dashboard</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2024 CodeCraft. WebTech Project.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
