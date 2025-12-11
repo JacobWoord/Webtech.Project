@@ -5,21 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="CodeCraft - Log in op je account">
     <title>CodeCraft - Inloggen</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <!-- Navigatiebalk -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="index.html" class="logo">
+            <a href="{{ url_for('index') }}" class="logo">
                 <span class="logo-bracket">&lt;</span>
                 <strong>Code</strong>Craft
                 <span class="logo-bracket">/&gt;</span>
             </a>
             <ul class="nav-menu">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="login.html">Inloggen</a></li>
-                <li><a href="register.html">Registreren</a></li>
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('login') }}">Inloggen</a></li>
+                <li><a href="{{ url_for('register') }}">Registreren</a></li>
             </ul>
         </div>
     </nav>
@@ -62,7 +62,7 @@
                     </button>
 
                     <p style="text-align: center; margin-top: 1.5rem;">
-                        Nog geen account? <a href="register.html">Registreer hier</a>
+                        Nog geen account? <a href="{{ url_for('register_page') }}">Registreer hier</a>
                     </p>
                 </form>
             </div>
@@ -100,7 +100,7 @@
 
                 if (result.success) {
                     alert('Welkom terug, ' + result.user.name + '!');
-                    window.location.href = '/index.html';
+                    window.location.href = '/';
                 } else {
                     alert('Fout: ' + result.message);
                 }

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses - CodeCraft</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Course Management</h1>
+            <div>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">Home</a>
+                <a href="{{ url_for('create_course') }}" class="btn btn-primary">+ Add Course</a>
+            </div>
+        </div>
+        
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        
+        {% if courses %}
+        <div class="courses-grid">
+            {% for course in courses %}
+            <div class="course-card">
+                <h3>{{ course.title }}</h3>
+                <p>{{ course.description[:100] }}{% if course.description|length > 100 %}...{% endif %}</p>
+                <p><small>Created: {{ course['created_at'] }}</small></p>
+                
+                <div class="course-actions">
+                    <a href="{{ url_for('view_course', id=course.id) }}" class="btn btn-secondary">View</a>
+                    <a href="{{ url_for('edit_course', id=course.id) }}" class="btn btn-primary">Edit</a>
+                    <form action="{{ url_for('delete_course', id=course.id) }}" method="POST" style="display: inline;">
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Delete this course?')">Delete</button>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p style="text-align: center; color: #6c757d;">No courses yet. Create one to get started!</p>
+        {% endif %}
+    </div>
+</body>
+</html>

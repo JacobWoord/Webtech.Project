@@ -14,7 +14,7 @@
     <!-- Titel van het tabblad in de browser -->
     <title>CodeCraft - HTML & CSS Playground</title>
     <!-- Hier koppel ik mijn externe CSS bestand -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <!--
@@ -39,8 +39,8 @@
                 <li><a href="#voorbeelden">Voorbeelden</a></li>
                 <li><a href="#tips">Tips</a></li>
                 <li><a href="#contact">Contact</a></li>
-                <li><a href="login.html">Inloggen</a></li>
-                <li><a href="register.html">Registreren</a></li>
+                <li><a href="{{ url_for('login_page') }}">Inloggen</a></li>
+                <li><a href="{{ url_for('register_page') }}">Registreren</a></li>
             </ul>
         </div>
     </nav>
